@@ -2,47 +2,83 @@
 const Experience = () => {
   const experiences = [
     {
-      year: "2024",
-      title: "Linux System Programming and Kernel Fundamentals",
+      year: "May 2025 - Present",
+      title: "Contributor at The Linux Foundation",
+      organization: "Google Summer of Code",
+      type: "Part-time",
+      description: [
+        "Contributing to The Linux Foundation open source projects",
+        "Working on kernel-level improvements and system optimization",
+        "Collaborating with global developers on critical Linux infrastructure"
+      ]
+    },
+    {
+      year: "Nov 2024 - Present",
+      title: "Chairperson",
+      organization: "IEEE Mansoura Computer Society Chapter",
+      type: "Leadership Role",
+      description: [
+        "Leading the computer society chapter with strategic vision and direction",
+        "Organizing technical events and educational programs for members",
+        "Managing cross-functional teams and fostering innovation initiatives"
+      ]
+    },
+    {
+      year: "Nov 2023 - Nov 2024",
+      title: "Head of Embedded Systems Committee",
+      organization: "IEEE Mansoura Computer Society Chapter",
+      type: "Leadership Role",
+      description: [
+        "Led embedded systems committee for 1 year and 1 month",
+        "Developed and delivered curriculum for embedded systems training",
+        "Supervised technical projects and mentored committee members"
+      ]
+    },
+    {
+      year: "Jul 2023 - Nov 2023",
+      title: "Embedded Systems Supervisor",
+      organization: "IEEE Mansoura Computer Society Chapter",
+      type: "Leadership Role",
+      description: [
+        "Supervised embedded systems projects and initiatives",
+        "Provided technical guidance and mentorship to team members",
+        "Coordinated project delivery and quality assurance processes"
+      ]
+    },
+    {
+      year: "Jun 2024 - Sep 2024",
+      title: "Linux Kernel Fundamentals",
       organization: "STMicroelectronics",
-      type: "Training",
+      type: "Internship",
       description: [
-        "Gained comprehensive understanding of Linux system programming concepts",
-        "Learned kernel-level programming and system optimization techniques",
-        "Applied knowledge to embedded Linux environments and driver development"
+        "Specialized in Linux kernel fundamentals and driver development",
+        "Gained expertise in POSIX threads and kernel-level programming",
+        "Applied knowledge to real-world embedded Linux environments",
+        "Location: Cairo, Egypt (On-site)"
       ]
     },
     {
-      year: "2023-2024",
-      title: "Curriculum Development & Delivery",
-      organization: "IEEE Mansoura Student Branch",
-      type: "Leadership Role",
+      year: "Jan 2024 - May 2024",
+      title: "Linux System Programming Trainee",
+      organization: "STMicroelectronics",
+      type: "Internship",
       description: [
-        "Designed and delivered technical curriculum for engineering students",
-        "Organized workshops and training sessions on embedded systems",
-        "Mentored junior members in software development best practices"
+        "Comprehensive training in Linux system programming concepts",
+        "Mastered GNU/Linux tools and GNU Debugger",
+        "Developed proficiency in 18+ technical skills including system optimization",
+        "Location: Cairo, Egypt (On-site)"
       ]
     },
     {
-      year: "2023-2024",
-      title: "Committee Supervision",
-      organization: "IEEE Mansoura Student Branch",
-      type: "Leadership Role",
+      year: "Oct 2023 - Sep 2024",
+      title: "Hardware Engineer - PCB Layout",
+      organization: "Metanoia",
+      type: "Full-time",
       description: [
-        "Supervised technical committees and project development",
-        "Coordinated cross-functional teams for successful project delivery",
-        "Implemented quality assurance processes for technical initiatives"
-      ]
-    },
-    {
-      year: "2023",
-      title: "Automotive Embedded Linux",
-      organization: "Bullet Guru",
-      type: "Training",
-      description: [
-        "Specialized training in automotive-specific Linux implementations",
-        "Learned AUTOSAR and automotive software architecture principles",
-        "Developed expertise in automotive communication protocols and safety standards"
+        "Designed and developed PCB layouts using Altium Designer",
+        "Specialized in Printed Circuit Board (PCB) Design and layout optimization",
+        "Applied hardware engineering principles to real-world projects",
+        "Location: Cairo, Egypt"
       ]
     }
   ];

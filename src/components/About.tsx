@@ -49,20 +49,35 @@ const About = () => {
             </div>
           </div>
 
-          {/* Visual Element */}
+          {/* Profile Photo */}
           <div className="relative">
             <div className="aspect-square rounded-2xl bg-gradient-to-br from-primary/20 to-accent/20 p-8 flex items-center justify-center">
-              <div className="w-full h-full rounded-xl bg-card border border-border flex items-center justify-center">
-                <div className="text-center space-y-4">
-                  <div className="w-24 h-24 bg-primary/20 rounded-full mx-auto flex items-center justify-center">
-                    <div className="w-16 h-16 bg-primary rounded-full"></div>
+              <div className="w-full h-full rounded-xl bg-card border border-border overflow-hidden">
+                <img 
+                  src="/profile-photo.jpg" 
+                  alt="Ahmed Adel Wafdy - Software Engineer"
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    // Fallback to placeholder if image not found
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                    const fallback = target.nextElementSibling as HTMLElement;
+                    if (fallback) fallback.style.display = 'flex';
+                  }}
+                />
+                {/* Fallback content if image doesn't load */}
+                <div className="w-full h-full flex items-center justify-center" style={{ display: 'none' }}>
+                  <div className="text-center space-y-4">
+                    <div className="w-24 h-24 bg-primary/20 rounded-full mx-auto flex items-center justify-center">
+                      <div className="w-16 h-16 bg-primary rounded-full"></div>
+                    </div>
+                    <h3 className="text-xl font-serif font-semibold text-foreground">
+                      Engineering Philosophy
+                    </h3>
+                    <p className="text-muted-foreground text-sm max-w-xs">
+                      "Innovation through robust code. Every system should be reliable, efficient, and scalable."
+                    </p>
                   </div>
-                  <h3 className="text-xl font-serif font-semibold text-foreground">
-                    Engineering Philosophy
-                  </h3>
-                  <p className="text-muted-foreground text-sm max-w-xs">
-                    "Innovation through robust code. Every system should be reliable, efficient, and scalable."
-                  </p>
                 </div>
               </div>
             </div>
