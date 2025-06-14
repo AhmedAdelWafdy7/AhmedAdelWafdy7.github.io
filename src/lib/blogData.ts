@@ -259,8 +259,6 @@ export const blogPosts: BlogPostData[] = [
 
       <h2>References</h2>
       <p><em>System design principles and architecture patterns referenced from Martin Kleppmann's <a href="https://www.amazon.in/dp/9352135245" target="_blank">"Designing Data-Intensive Applications"</a> - an essential resource for understanding distributed systems and data architecture at scale.</em></p>
-      
-      <p><em>Complete system design diagrams and technical specifications are available in our <a href="https://drive.google.com/file/d/10IMuD4tQl9kBwJ9TR5Snjj3vQRmSUv9W/view?usp=drive_link" target="_blank">design documentation</a>.</em></p>
     `,
     readTime: "12 min read",
     slug: "week-2"
