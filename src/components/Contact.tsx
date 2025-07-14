@@ -14,8 +14,8 @@ const Contact = () => {
     {
       icon: <Phone className="w-5 h-5" />,
       label: "Phone",
-      value: "01096514812",
-      href: "tel:01096514812"
+      value: "+201096514812",
+      href: "tel:+201096514812"
     }
   ];
 
@@ -27,7 +27,7 @@ const Contact = () => {
     },
     {
       name: "GitHub",
-      url: "https://github.com/ahmedwafdy",
+      url: "https://github.com/AhmedAdelWafdy7",
       icon: <Github className="w-6 h-6" />
     }
   ];
