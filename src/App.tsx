@@ -19,7 +19,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/blog" element={<Index />} />
-          <Route path="/blog/week:week" element={<BlogPost />} />
+          <Route path="/blog/week-:week" element={<BlogPost />} />
           <Route path="/blog/:week" element={<BlogPost />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
