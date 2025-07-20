@@ -1389,16 +1389,17 @@ ostree --repo=/opt/flat-manager/stable-repo fsck</code></pre>
         <h2>First PR Success</h2>
         <p>The first pull request was successfully merged this week! This PR enhanced the common CurlClient to provide a robust foundation for HTTP communications with remote repositories.</p>
         
-        <div style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(59, 130, 246, 0.1)); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 12px; padding: 20px; margin: 24px 0;">
-          <h3 style="margin-top: 0; color: rgb(34, 197, 94); display: flex; align-items: center; gap: 8px;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polyline points="20,6 9,17 4,12"></polyline>
+        <div style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(168, 85, 247, 0.1)); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 12px; padding: 20px; margin: 24px 0;">
+          <h3 style="margin-top: 0; color: rgb(139, 92, 246); display: flex; align-items: center; gap: 8px;">
+            <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M5 3.254V3.25v.005a.75.75 0 110-.005v.004zm.787 1.44c.18-.14.403-.25.663-.25.138 0 .27.027.393.077.364.148.594.52.594.923 0 .608-.481 1.101-1.125 1.101-.645 0-1.125-.493-1.125-1.101 0-.403.23-.775.594-.923.123-.05.255-.077.393-.077.26 0 .483.11.663.25zm2.176 0c.18-.14.403-.25.663-.25.138 0 .27.027.393.077.364.148.594.52.594.923 0 .608-.481 1.101-1.125 1.101-.645 0-1.125-.493-1.125-1.101 0-.403.23-.775.594-.923.123-.05.255-.077.393-.077.26 0 .483.11.663.25zM8 1C3.58 1 0 4.58 0 9c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 9c0-4.42-3.58-8-8-8z"></path>
             </svg>
-            Pull Request #124 - MERGED ✅
+            <span style="background: rgb(139, 92, 246); color: white; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: 600;">Merged</span>
+            Pull Request #124
           </h3>
           <p><strong>feat(common): Enhance CurlClient for generic HTTP requests</strong></p>
           <a href="https://github.com/toyota-connected/ivi-homescreen-plugins/pull/124" target="_blank" rel="noopener noreferrer" 
-             style="display: inline-flex; align-items: center; gap: 8px; background: rgb(34, 197, 94); color: white; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-weight: 500; transition: all 0.2s;">
+             style="display: inline-flex; align-items: center; gap: 8px; background: rgb(139, 92, 246); color: white; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-weight: 500; transition: all 0.2s;">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
               <polyline points="10,17 15,12 10,7"></polyline>
@@ -1492,17 +1493,19 @@ ostree --repo=/opt/flat-manager/stable-repo fsck</code></pre>
     published: true,
     excerpt: "Exploring the design and implementation of a sophisticated caching system with architectural patterns, key components, and advanced features for robustness, flexibility, and observability.",
     content: `
-        <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1)); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 12px; padding: 20px; margin: 24px 0;">
-          <h3 style="margin-top: 0; color: rgb(59, 130, 246); display: flex; align-items: center; gap: 8px;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M9 12l2 2 4-4"></path>
-              <path d="M21 12c.552 0 1-.448 1-1V5c0-.552-.448-1-1-1H3c-.552 0-1 .448-1 1v6c0 .552.448 1 1 1h9l4-4"></path>
+        <div style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(16, 185, 129, 0.1)); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 12px; padding: 20px; margin: 24px 0;">
+          <h3 style="margin-top: 0; color: rgb(34, 197, 94); display: flex; align-items: center; gap: 8px;">
+            <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M8 9.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path>
+              <path d="M8 0a8 8 0 100 16A8 8 0 008 0zM1.5 8a6.5 6.5 0 1113 0 6.5 6.5 0 01-13 0z"></path>
             </svg>
-            Pull Request #130 - MERGED ✅
+            <span style="background: rgb(34, 197, 94); color: white; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: 600;">Open</span>
+            Pull Request #130
           </h3>
-          <p><strong>feat(flatpak_plugin): Add robust caching system with advanced design patterns</strong></p>
+          <p><strong>feat : Add Cache Manager for Flatpak Plugin and Enhance CurlClient</strong></p>
+          <p>This pull request introduces a CacheManager for the Flatpak plugin, enabling efficient caching of application and installation data, and expands the CurlClient to handle all necessary network operations internally. The changes improve performance, reliability, and observability for the Flatpak plugin while maintaining thread safety and extensibility.</p>
           <a href="https://github.com/toyota-connected/ivi-homescreen-plugins/pull/130" target="_blank" rel="noopener noreferrer" 
-             style="display: inline-flex; align-items: center; gap: 8px; background: rgb(59, 130, 246); color: white; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-weight: 500; transition: all 0.2s;">
+             style="display: inline-flex; align-items: center; gap: 8px; background: rgb(34, 197, 94); color: white; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-weight: 500; transition: all 0.2s;">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
               <polyline points="10,17 15,12 10,7"></polyline>
@@ -1519,125 +1522,201 @@ ostree --repo=/opt/flat-manager/stable-repo fsck</code></pre>
         <h2>System Architecture Sequence Flow</h2>
         <p>The following diagram illustrates how the caching system components interact across different scenarios:</p>
 
-        <div style="background: #1a1a1a; border-radius: 8px; padding: 20px; margin: 20px 0; overflow-x: auto;">
-          <svg viewBox="0 0 1200 800" style="width: 100%; height: auto; background: #1a1a1a;">
-            <!-- Participants -->
+        <div style="background: #0f172a; border-radius: 12px; padding: 24px; margin: 24px 0; overflow-x: auto; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.12);">
+          <svg viewBox="0 0 1400 1000" style="width: 100%; height: auto; background: #0f172a; border-radius: 8px;">
             <defs>
-              <pattern id="diagonalHatch" patternUnits="userSpaceOnUse" width="4" height="4">
-                <path d="m0,4 l4,-4 M-1,1 l2,-2 M3,5 l2,-2" stroke="#333" stroke-width="1"/>
+              <!-- Gradient Definitions -->
+              <linearGradient id="headerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#1e40af" />
+                <stop offset="100%" stop-color="#1e3a8a" />
+              </linearGradient>
+              
+              <!-- Arrow Markers -->
+              <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                <polygon points="0 0, 10 3.5, 0 7" fill="currentColor" />
+              </marker>
+              
+              <marker id="asyncArrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                <polygon points="0 0, 10 3.5, 0 7" fill="currentColor" opacity="0.8" />
+              </marker>
+              
+              <!-- Pattern for async messages -->
+              <pattern id="diagonalHatch" patternUnits="userSpaceOnUse" width="6" height="6">
+                <path d="M-1,1 l2,-2 M0,6 l6,-6 M5,7 l2,-2" stroke="currentColor" stroke-width="1" opacity="0.7"/>
               </pattern>
             </defs>
             
-            <!-- Headers -->
-            <rect x="50" y="20" width="120" height="40" fill="#2563eb" rx="5"/>
-            <text x="110" y="45" text-anchor="middle" fill="white" font-family="monospace" font-size="12">FlatpakPlugin</text>
+            <!-- Title -->
+            <text x="700" y="40" text-anchor="middle" fill="#f8fafc" font-family="'Inter', sans-serif" font-size="20" font-weight="600">Cache System Sequence Diagram</text>
             
-            <rect x="220" y="20" width="120" height="40" fill="#059669" rx="5"/>
-            <text x="280" y="45" text-anchor="middle" fill="white" font-family="monospace" font-size="12">CacheManager</text>
+            <!-- Participant Headers -->
+            <g class="participant">
+              <rect x="40" y="70" width="140" height="50" rx="8" fill="url(#headerGradient)" stroke="#1e40af" stroke-width="1.5"/>
+              <text x="110" y="102" text-anchor="middle" fill="#f8fafc" font-family="'Fira Code', monospace" font-size="12" font-weight="500">FlatpakPlugin</text>
+            </g>
             
-            <rect x="390" y="20" width="140" height="40" fill="#dc2626" rx="5"/>
-            <text x="460" y="45" text-anchor="middle" fill="white" font-family="monospace" font-size="12">SQLiteCacheStorage</text>
+            <g class="participant">
+              <rect x="230" y="70" width="140" height="50" rx="8" fill="#065f46" stroke="#047857" stroke-width="1.5"/>
+              <text x="300" y="102" text-anchor="middle" fill="#f8fafc" font-family="'Fira Code', monospace" font-size="12" font-weight="500">CacheManager</text>
+            </g>
             
-            <rect x="580" y="20" width="140" height="40" fill="#7c3aed" rx="5"/>
-            <text x="650" y="45" text-anchor="middle" fill="white" font-family="monospace" font-size="12">CurlNetworkFetcher</text>
+            <g class="participant">
+              <rect x="420" y="70" width="160" height="50" rx="8" fill="#991b1b" stroke="#b91c1c" stroke-width="1.5"/>
+              <text x="500" y="102" text-anchor="middle" fill="#f8fafc" font-family="'Fira Code', monospace" font-size="12" font-weight="500">SQLiteCache</text>
+            </g>
             
-            <rect x="770" y="20" width="100" height="40" fill="#ea580c" rx="5"/>
-            <text x="820" y="45" text-anchor="middle" fill="white" font-family="monospace" font-size="12">CurlClient</text>
+            <g class="participant">
+              <rect x="630" y="70" width="160" height="50" rx="8" fill="#5b21b6" stroke="#7c3aed" stroke-width="1.5"/>
+              <text x="710" y="102" text-anchor="middle" fill="#f8fafc" font-family="'Fira Code', monospace" font-size="12" font-weight="500">NetworkFetcher</text>
+            </g>
             
-            <rect x="920" y="20" width="120" height="40" fill="#0891b2" rx="5"/>
-            <text x="980" y="45" text-anchor="middle" fill="white" font-family="monospace" font-size="12">CacheObserver</text>
+            <g class="participant">
+              <rect x="840" y="70" width="120" height="50" rx="8" fill="#9a3412" stroke="#ea580c" stroke-width="1.5"/>
+              <text x="900" y="102" text-anchor="middle" fill="#f8fafc" font-family="'Fira Code', monospace" font-size="12" font-weight="500">CurlClient</text>
+            </g>
+            
+            <g class="participant">
+              <rect x="1010" y="70" width="140" height="50" rx="8" fill="#075985" stroke="#0ea5e9" stroke-width="1.5"/>
+              <text x="1080" y="102" text-anchor="middle" fill="#f8fafc" font-family="'Fira Code', monospace" font-size="12" font-weight="500">CacheObserver</text>
+            </g>
             
             <!-- Lifelines -->
-            <line x1="110" y1="60" x2="110" y2="750" stroke="#333" stroke-width="2" stroke-dasharray="5,5"/>
-            <line x1="280" y1="60" x2="280" y2="750" stroke="#333" stroke-width="2" stroke-dasharray="5,5"/>
-            <line x1="460" y1="60" x2="460" y2="750" stroke="#333" stroke-width="2" stroke-dasharray="5,5"/>
-            <line x1="650" y1="60" x2="650" y2="750" stroke="#333" stroke-width="2" stroke-dasharray="5,5"/>
-            <line x1="820" y1="60" x2="820" y2="750" stroke="#333" stroke-width="2" stroke-dasharray="5,5"/>
-            <line x1="980" y1="60" x2="980" y2="750" stroke="#333" stroke-width="2" stroke-dasharray="5,5"/>
+            <line x1="110" y1="130" x2="110" y2="950" stroke="#334155" stroke-width="2" stroke-dasharray="6,4"/>
+            <line x1="300" y1="130" x2="300" y2="950" stroke="#334155" stroke-width="2" stroke-dasharray="6,4"/>
+            <line x1="500" y1="130" x2="500" y2="950" stroke="#334155" stroke-width="2" stroke-dasharray="6,4"/>
+            <line x1="710" y1="130" x2="710" y2="950" stroke="#334155" stroke-width="2" stroke-dasharray="6,4"/>
+            <line x1="900" y1="130" x2="900" y2="950" stroke="#334155" stroke-width="2" stroke-dasharray="6,4"/>
+            <line x1="1080" y1="130" x2="1080" y2="950" stroke="#334155" stroke-width="2" stroke-dasharray="6,4"/>
             
-            <!-- Cache Hit Scenario -->
-            <text x="50" y="100" fill="#10b981" font-family="monospace" font-size="14" font-weight="bold">Cache Hit Scenario</text>
+            <!-- Scenario 1: Cache Hit -->
+            <g class="scenario">
+              <rect x="40" y="150" width="1320" height="180" rx="8" fill="#1e293b" fill-opacity="0.3" stroke="#10b981" stroke-width="1.5" stroke-dasharray="8,4"/>
+              <text x="50" y="175" fill="#10b981" font-family="'Inter', sans-serif" font-size="14" font-weight="600">1. Cache Hit Scenario</text>
+              
+              <!-- Cache Hit Flow -->
+              <g class="flow">
+                <!-- Request from Plugin to CacheManager -->
+                <line x1="110" y1="200" x2="300" y2="200" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrowhead)"/>
+                <rect x="150" y="180" width="110" height="20" rx="4" fill="#1e40af" opacity="0.1"/>
+                <text x="205" y="195" text-anchor="middle" fill="#93c5fd" font-family="'Fira Code', monospace" font-size="11">GetApplications()</text>
+                
+                <!-- CacheManager checks cache -->
+                <line x1="300" y1="230" x2="500" y2="230" stroke="#10b981" stroke-width="2" marker-end="url(#arrowhead)"/>
+                <rect x="350" y="210" width="110" height="20" rx="4" fill="#065f46" opacity="0.1"/>
+                <text x="400" y="225" text-anchor="middle" fill="#6ee7b7" font-family="'Fira Code', monospace" font-size="11">Retrieve(key)</text>
+                
+                <!-- Cache hit response -->
+                <line x1="500" y1="260" x2="300" y2="260" stroke="#ef4444" stroke-width="2" stroke-dasharray="4,2" marker-end="url(#arrowhead)"/>
+                <rect x="380" y="240" width="90" height="20" rx="4" fill="#991b1b" opacity="0.1"/>
+                <text x="400" y="255" text-anchor="middle" fill="#fca5a5" font-family="'Fira Code', monospace" font-size="11">[Cached Data]</text>
+                
+                <!-- Notify observer -->
+                <line x1="300" y1="290" x2="1080" y2="290" stroke="#0ea5e9" stroke-width="2" marker-end="url(#arrowhead)"/>
+                <rect x="600" y="270" width="120" height="20" rx="4" fill="#075985" opacity="0.1"/>
+                <text x="690" y="285" text-anchor="middle" fill="#7dd3fc" font-family="'Fira Code', monospace" font-size="11">OnCacheHit()</text>
+                
+                <!-- Return cached data -->
+                <line x1="300" y1="320" x2="110" y2="320" stroke="#10b981" stroke-width="2" stroke-dasharray="4,2" marker-end="url(#arrowhead)"/>
+                <rect x="150" y="300" width="120" height="20" rx="4" fill="#065f46" opacity="0.1"/>
+                <text x="205" y="315" text-anchor="middle" fill="#6ee7b7" font-family="'Fira Code', monospace" font-size="11">cached_data</text>
+              </g>
+            </g>
             
-            <!-- Request -->
-            <line x1="110" y1="120" x2="280" y2="120" stroke="#2563eb" stroke-width="2" marker-end="url(#arrowhead)"/>
-            <text x="195" y="115" text-anchor="middle" fill="#2563eb" font-family="monospace" font-size="10">GetApplications()</text>
+            <!-- Scenario 2: Cache Miss -->
+            <g class="scenario">
+              <rect x="40" y="360" width="1320" height="260" rx="8" fill="#1e293b" fill-opacity="0.3" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="8,4"/>
+              <text x="50" y="385" fill="#f59e0b" font-family="'Inter', sans-serif" font-size="14" font-weight="600">2. Cache Miss - Network Success</text>
+              
+              <!-- Cache Miss Flow -->
+              <g class="flow">
+                <!-- Request from Plugin to CacheManager -->
+                <line x1="110" y1="420" x2="300" y2="420" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrowhead)"/>
+                <rect x="150" y="400" width="110" height="20" rx="4" fill="#1e40af" opacity="0.1"/>
+                <text x="205" y="415" text-anchor="middle" fill="#93c5fd" font-family="'Fira Code', monospace" font-size="11">GetApplications()</text>
+                
+                <!-- CacheManager checks cache -->
+                <line x1="300" y1="450" x2="500" y2="450" stroke="#10b981" stroke-width="2" marker-end="url(#arrowhead)"/>
+                <rect x="350" y="430" width="110" height="20" rx="4" fill="#065f46" opacity="0.1"/>
+                <text x="400" y="445" text-anchor="middle" fill="#6ee7b7" font-family="'Fira Code', monospace" font-size="11">Retrieve(key)</text>
+                
+                <!-- Cache miss response -->
+                <line x1="500" y1="480" x2="300" y2="480" stroke="#ef4444" stroke-width="2" stroke-dasharray="4,2" marker-end="url(#arrowhead)"/>
+                <rect x="370" y="460" width="70" height="20" rx="4" fill="#991b1b" opacity="0.1"/>
+                <text x="400" y="475" text-anchor="middle" fill="#fca5a5" font-family="'Fira Code', monospace" font-size="11">[Cache Miss]</text>
+                
+                <!-- Notify observer -->
+                <line x1="300" y1="510" x2="1080" y2="510" stroke="#0ea5e9" stroke-width="2" marker-end="url(#arrowhead)"/>
+                <rect x="600" y="490" width="120" height="20" rx="4" fill="#075985" opacity="0.1"/>
+                <text x="690" y="505" text-anchor="middle" fill="#7dd3fc" font-family="'Fira Code', monospace" font-size="11">OnCacheMiss()</text>
+                
+                <!-- Network fetch -->
+                <line x1="300" y1="540" x2="710" y2="540" stroke="#8b5cf6" stroke-width="2" marker-end="url(#arrowhead)"/>
+                <rect x="450" y="520" width="150" height="20" rx="4" fill="#5b21b6" opacity="0.1"/>
+                <text x="505" y="535" text-anchor="middle" fill="#c4b5fd" font-family="'Fira Code', monospace" font-size="11">Fetch(url, headers)</text>
+                
+                <!-- CurlClient request -->
+                <line x1="710" y1="570" x2="900" y2="570" stroke="#8b5cf6" stroke-width="2" marker-end="url(#arrowhead)"/>
+                <rect x="750" y="550" width="90" height="20" rx="4" fill="#5b21b6" opacity="0.1"/>
+                <text x="805" y="565" text-anchor="middle" fill="#c4b5fd" font-family="'Fira Code', monospace" font-size="11">Get(url)</text>
+                
+                <!-- Response from CurlClient -->
+                <line x1="900" y1="600" x2="710" y2="600" stroke="#ea580c" stroke-width="2" stroke-dasharray="4,2" marker-end="url(#arrowhead)"/>
+                <rect x="750" y="580" width="120" height="20" rx="4" fill="#9a3412" opacity="0.1"/>
+                <text x="805" y="595" text-anchor="middle" fill="#fdba74" font-family="'Fira Code', monospace" font-size="11">response_data</text>
+                
+                <!-- Return network data -->
+                <line x1="710" y1="630" x2="300" y2="630" stroke="#8b5cf6" stroke-width="2" stroke-dasharray="4,2" marker-end="url(#arrowhead)"/>
+                <rect x="450" y="610" width="120" height="20" rx="4" fill="#5b21b6" opacity="0.1"/>
+                <text x="505" y="625" text-anchor="middle" fill="#c4b5fd" font-family="'Fira Code', monospace" font-size="11">network_data</text>
+                
+                <!-- Store in cache -->
+                <line x1="300" y1="660" x2="500" y2="660" stroke="#10b981" stroke-width="2" marker-end="url(#arrowhead)"/>
+                <rect x="350" y="640" width="140" height="20" rx="4" fill="#065f46" opacity="0.1"/>
+                <text x="400" y="655" text-anchor="middle" fill="#6ee7b7" font-family="'Fira Code', monospace" font-size="11">Store(key, data)</text>
+                
+                <!-- Return fresh data -->
+                <line x1="300" y1="690" x2="110" y2="690" stroke="#10b981" stroke-width="2" stroke-dasharray="4,2" marker-end="url(#arrowhead)"/>
+                <rect x="150" y="670" width="120" height="20" rx="4" fill="#065f46" opacity="0.1"/>
+                <text x="205" y="685" text-anchor="middle" fill="#6ee7b7" font-family="'Fira Code', monospace" font-size="11">fresh_data</text>
+              </g>
+            </g>
             
-            <!-- Cache retrieve -->
-            <line x1="280" y1="140" x2="460" y2="140" stroke="#059669" stroke-width="2" marker-end="url(#arrowhead)"/>
-            <text x="370" y="135" text-anchor="middle" fill="#059669" font-family="monospace" font-size="10">Retrieve(cache_key)</text>
-            
-            <!-- Cache hit response -->
-            <line x1="460" y1="160" x2="280" y2="160" stroke="#dc2626" stroke-width="2" stroke-dasharray="3,3" marker-end="url(#arrowhead)"/>
-            <text x="370" y="155" text-anchor="middle" fill="#dc2626" font-family="monospace" font-size="10">cached_data [Hit]</text>
-            
-            <!-- Observer notification -->
-            <line x1="280" y1="180" x2="980" y2="180" stroke="#0891b2" stroke-width="2" marker-end="url(#arrowhead)"/>
-            <text x="630" y="175" text-anchor="middle" fill="#0891b2" font-family="monospace" font-size="10">OnCacheHit(key, size)</text>
-            
-            <!-- Return to plugin -->
-            <line x1="280" y1="200" x2="110" y2="200" stroke="#059669" stroke-width="2" stroke-dasharray="3,3" marker-end="url(#arrowhead)"/>
-            <text x="195" y="195" text-anchor="middle" fill="#059669" font-family="monospace" font-size="10">cached_applications</text>
-            
-            <!-- Cache Miss Scenario -->
-            <text x="50" y="250" fill="#f59e0b" font-family="monospace" font-size="14" font-weight="bold">Cache Miss - Network Success</text>
-            
-            <!-- Request -->
-            <line x1="110" y1="270" x2="280" y2="270" stroke="#2563eb" stroke-width="2" marker-end="url(#arrowhead)"/>
-            <text x="195" y="265" text-anchor="middle" fill="#2563eb" font-family="monospace" font-size="10">GetApplications()</text>
-            
-            <!-- Cache miss -->
-            <line x1="280" y1="290" x2="460" y2="290" stroke="#059669" stroke-width="2" marker-end="url(#arrowhead)"/>
-            <text x="370" y="285" text-anchor="middle" fill="#059669" font-family="monospace" font-size="10">Retrieve(cache_key)</text>
-            
-            <line x1="460" y1="310" x2="280" y2="310" stroke="#dc2626" stroke-width="2" stroke-dasharray="3,3" marker-end="url(#arrowhead)"/>
-            <text x="370" y="305" text-anchor="middle" fill="#dc2626" font-family="monospace" font-size="10">[Cache Miss]</text>
-            
-            <!-- Cache miss notification -->
-            <line x1="280" y1="330" x2="980" y2="330" stroke="#0891b2" stroke-width="2" marker-end="url(#arrowhead)"/>
-            <text x="630" y="325" text-anchor="middle" fill="#0891b2" font-family="monospace" font-size="10">OnCacheMiss(key)</text>
-            
-            <!-- Network fetch -->
-            <line x1="280" y1="350" x2="650" y2="350" stroke="#7c3aed" stroke-width="2" marker-end="url(#arrowhead)"/>
-            <text x="465" y="345" text-anchor="middle" fill="#7c3aed" font-family="monospace" font-size="10">Fetch(url, headers)</text>
-            
-            <line x1="650" y1="370" x2="820" y2="370" stroke="#7c3aed" stroke-width="2" marker-end="url(#arrowhead)"/>
-            <text x="735" y="365" text-anchor="middle" fill="#7c3aed" font-family="monospace" font-size="10">Get(url)</text>
-            
-            <line x1="820" y1="390" x2="650" y2="390" stroke="#ea580c" stroke-width="2" stroke-dasharray="3,3" marker-end="url(#arrowhead)"/>
-            <text x="735" y="385" text-anchor="middle" fill="#ea580c" font-family="monospace" font-size="10">response_data</text>
-            
-            <line x1="650" y1="410" x2="280" y2="410" stroke="#7c3aed" stroke-width="2" stroke-dasharray="3,3" marker-end="url(#arrowhead)"/>
-            <text x="465" y="405" text-anchor="middle" fill="#7c3aed" font-family="monospace" font-size="10">network_data</text>
-            
-            <!-- Store in cache -->
-            <line x1="280" y1="430" x2="460" y2="430" stroke="#059669" stroke-width="2" marker-end="url(#arrowhead)"/>
-            <text x="370" y="425" text-anchor="middle" fill="#059669" font-family="monospace" font-size="10">Store(key, data, expiry)</text>
-            
-            <!-- Return fresh data -->
-            <line x1="280" y1="450" x2="110" y2="450" stroke="#059669" stroke-width="2" stroke-dasharray="3,3" marker-end="url(#arrowhead)"/>
-            <text x="195" y="445" text-anchor="middle" fill="#059669" font-family="monospace" font-size="10">fresh_applications</text>
-            
-            <!-- Network Failure Scenario -->
-            <text x="50" y="500" fill="#ef4444" font-family="monospace" font-size="14" font-weight="bold">Network Failure - Fallback to Stale Cache</text>
-            
-            <!-- Network error -->
-            <line x1="280" y1="520" x2="650" y2="520" stroke="#7c3aed" stroke-width="2" marker-end="url(#arrowhead)"/>
-            <text x="465" y="515" text-anchor="middle" fill="#7c3aed" font-family="monospace" font-size="10">Fetch(url, headers)</text>
-            
-            <rect x="640" y="535" width="20" height="15" fill="#ef4444"/>
-            <text x="650" y="545" text-anchor="middle" fill="white" font-family="monospace" font-size="8">X</text>
-            
-            <!-- Error notification -->
-            <line x1="280" y1="560" x2="980" y2="560" stroke="#0891b2" stroke-width="2" marker-end="url(#arrowhead)"/>
-            <text x="630" y="555" text-anchor="middle" fill="#0891b2" font-family="monospace" font-size="10">OnNetworkError(url, error)</text>
-            
-            <!-- Fallback notification -->
-            <line x1="280" y1="580" x2="980" y2="580" stroke="#0891b2" stroke-width="2" marker-end="url(#arrowhead)"/>
-            <text x="630" y="575" text-anchor="middle" fill="#0891b2" font-family="monospace" font-size="10">OnNetworkFallback(error)</text>
-            
-            <!-- Return stale data -->
-            <line x1="280" y1="600" x2="110" y2="600" stroke="#f59e0b" stroke-width="2" stroke-dasharray="3,3" marker-end="url(#arrowhead)"/>
-            <text x="195" y="595" text-anchor="middle" fill="#f59e0b" font-family="monospace" font-size="10">stale_applications</text>
+            <!-- Scenario 3: Network Failure -->
+            <g class="scenario">
+              <rect x="40" y="650" width="1320" height="230" rx="8" fill="#1e293b" fill-opacity="0.3" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="8,4"/>
+              <text x="50" y="675" fill="#ef4444" font-family="'Inter', sans-serif" font-size="14" font-weight="600">3. Network Failure - Fallback to Stale Cache</text>
+              
+              <!-- Network Failure Flow -->
+              <g class="flow">
+                <!-- Attempt network fetch -->
+                <line x1="300" y1="710" x2="710" y2="710" stroke="#8b5cf6" stroke-width="2" marker-end="url(#arrowhead)"/>
+                <rect x="450" y="690" width="150" height="20" rx="4" fill="#5b21b6" opacity="0.1"/>
+                <text x="505" y="705" text-anchor="middle" fill="#c4b5fd" font-family="'Fira Code', monospace" font-size="11">Fetch(url, headers)</text>
+                
+                <!-- Network error indicator -->
+                <g>
+                  <line x1="705" y1="735" x2="715" y2="745" stroke="#ef4444" stroke-width="2"/>
+                  <line x1="705" y1="745" x2="715" y2="735" stroke="#ef4444" stroke-width="2"/>
+                  <circle cx="710" cy="740" r="12" fill="none" stroke="#ef4444" stroke-width="2"/>
+                  <text x="710" y="745" text-anchor="middle" fill="#ef4444" font-family="'Fira Code', monospace" font-size="10" font-weight="bold">!</text>
+                </g>
+                
+                <!-- Error notification -->
+                <line x1="300" y1="770" x2="1080" y2="770" stroke="#0ea5e9" stroke-width="2" marker-end="url(#arrowhead)"/>
+                <rect x="600" y="750" width="160" height="20" rx="4" fill="#075985" opacity="0.1"/>
+                <text x="690" y="765" text-anchor="middle" fill="#7dd3fc" font-family="'Fira Code', monospace" font-size="11">OnNetworkError()</text>
+                
+                <!-- Fallback notification -->
+                <line x1="300" y1="800" x2="1080" y2="800" stroke="#0ea5e9" stroke-width="2" marker-end="url(#arrowhead)"/>
+                <rect x="600" y="780" width="160" height="20" rx="4" fill="#075985" opacity="0.1"/>
+                <text x="690" y="795" text-anchor="middle" fill="#7dd3fc" font-family="'Fira Code', monospace" font-size="11">OnNetworkFallback()</text>
+                
+                <!-- Return stale data -->
+                <line x1="300" y1="840" x2="110" y2="840" stroke="#f59e0b" stroke-width="2" stroke-dasharray="4,2" marker-end="url(#arrowhead)"/>
+                <rect x="150" y="820" width="120" height="20" rx="4" fill="#92400e" opacity="0.1"/>
+                <text x="205" y="835" text-anchor="middle" fill="#fcd34d" font-family="'Fira Code', monospace" font-size="11">stale_data</text>
+              </g>
+            </g>
             
             <!-- Arrow marker definition -->
             <defs>
