@@ -1485,15 +1485,278 @@ ostree --repo=/opt/flat-manager/stable-repo fsck</code></pre>
   },
   {
     week: 7,
+    title: "Building a Robust Caching System: A Deep Dive into its Architecture and Design Patterns",
+    date: "July 2025", 
+    author: "Ahmed Adel Wafdy",
+    tags: ['GSoC 2025', 'AGL', 'Caching', 'Design Patterns', 'Architecture', 'C++', 'Performance'],
+    published: true,
+    excerpt: "Exploring the design and implementation of a sophisticated caching system with architectural patterns, key components, and advanced features for robustness, flexibility, and observability.",
+    content: `
+        <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1)); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 12px; padding: 20px; margin: 24px 0;">
+          <h3 style="margin-top: 0; color: rgb(59, 130, 246); display: flex; align-items: center; gap: 8px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 12l2 2 4-4"></path>
+              <path d="M21 12c.552 0 1-.448 1-1V5c0-.552-.448-1-1-1H3c-.552 0-1 .448-1 1v6c0 .552.448 1 1 1h9l4-4"></path>
+            </svg>
+            Pull Request #130 - MERGED ✅
+          </h3>
+          <p><strong>feat(flatpak_plugin): Add robust caching system with advanced design patterns</strong></p>
+          <a href="https://github.com/toyota-connected/ivi-homescreen-plugins/pull/130" target="_blank" rel="noopener noreferrer" 
+             style="display: inline-flex; align-items: center; gap: 8px; background: rgb(59, 130, 246); color: white; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-weight: 500; transition: all 0.2s;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+              <polyline points="10,17 15,12 10,7"></polyline>
+              <line x1="15" x2="3" y1="12" y2="12"></line>
+            </svg>
+            View PR on GitHub
+          </a>
+        </div>
+
+        <p>In modern software development, efficient data access is paramount. Caching is a fundamental technique to achieve this, reducing latency and database load by storing frequently accessed data closer to the application. However, building a performant, reliable, and maintainable caching solution requires careful architectural consideration.</p>
+
+        <p>This post will explore the design and implementation of a sophisticated caching system, highlighting its architectural patterns, key components, and advanced features that ensure robustness, flexibility, and observability. We'll examine how various design patterns are leveraged to create a highly modular and extensible system.</p>
+
+        <h2>System Architecture Sequence Flow</h2>
+        <p>The following diagram illustrates how the caching system components interact across different scenarios:</p>
+
+        <div style="background: #1a1a1a; border-radius: 8px; padding: 20px; margin: 20px 0; overflow-x: auto;">
+          <svg viewBox="0 0 1200 800" style="width: 100%; height: auto; background: #1a1a1a;">
+            <!-- Participants -->
+            <defs>
+              <pattern id="diagonalHatch" patternUnits="userSpaceOnUse" width="4" height="4">
+                <path d="m0,4 l4,-4 M-1,1 l2,-2 M3,5 l2,-2" stroke="#333" stroke-width="1"/>
+              </pattern>
+            </defs>
+            
+            <!-- Headers -->
+            <rect x="50" y="20" width="120" height="40" fill="#2563eb" rx="5"/>
+            <text x="110" y="45" text-anchor="middle" fill="white" font-family="monospace" font-size="12">FlatpakPlugin</text>
+            
+            <rect x="220" y="20" width="120" height="40" fill="#059669" rx="5"/>
+            <text x="280" y="45" text-anchor="middle" fill="white" font-family="monospace" font-size="12">CacheManager</text>
+            
+            <rect x="390" y="20" width="140" height="40" fill="#dc2626" rx="5"/>
+            <text x="460" y="45" text-anchor="middle" fill="white" font-family="monospace" font-size="12">SQLiteCacheStorage</text>
+            
+            <rect x="580" y="20" width="140" height="40" fill="#7c3aed" rx="5"/>
+            <text x="650" y="45" text-anchor="middle" fill="white" font-family="monospace" font-size="12">CurlNetworkFetcher</text>
+            
+            <rect x="770" y="20" width="100" height="40" fill="#ea580c" rx="5"/>
+            <text x="820" y="45" text-anchor="middle" fill="white" font-family="monospace" font-size="12">CurlClient</text>
+            
+            <rect x="920" y="20" width="120" height="40" fill="#0891b2" rx="5"/>
+            <text x="980" y="45" text-anchor="middle" fill="white" font-family="monospace" font-size="12">CacheObserver</text>
+            
+            <!-- Lifelines -->
+            <line x1="110" y1="60" x2="110" y2="750" stroke="#333" stroke-width="2" stroke-dasharray="5,5"/>
+            <line x1="280" y1="60" x2="280" y2="750" stroke="#333" stroke-width="2" stroke-dasharray="5,5"/>
+            <line x1="460" y1="60" x2="460" y2="750" stroke="#333" stroke-width="2" stroke-dasharray="5,5"/>
+            <line x1="650" y1="60" x2="650" y2="750" stroke="#333" stroke-width="2" stroke-dasharray="5,5"/>
+            <line x1="820" y1="60" x2="820" y2="750" stroke="#333" stroke-width="2" stroke-dasharray="5,5"/>
+            <line x1="980" y1="60" x2="980" y2="750" stroke="#333" stroke-width="2" stroke-dasharray="5,5"/>
+            
+            <!-- Cache Hit Scenario -->
+            <text x="50" y="100" fill="#10b981" font-family="monospace" font-size="14" font-weight="bold">Cache Hit Scenario</text>
+            
+            <!-- Request -->
+            <line x1="110" y1="120" x2="280" y2="120" stroke="#2563eb" stroke-width="2" marker-end="url(#arrowhead)"/>
+            <text x="195" y="115" text-anchor="middle" fill="#2563eb" font-family="monospace" font-size="10">GetApplications()</text>
+            
+            <!-- Cache retrieve -->
+            <line x1="280" y1="140" x2="460" y2="140" stroke="#059669" stroke-width="2" marker-end="url(#arrowhead)"/>
+            <text x="370" y="135" text-anchor="middle" fill="#059669" font-family="monospace" font-size="10">Retrieve(cache_key)</text>
+            
+            <!-- Cache hit response -->
+            <line x1="460" y1="160" x2="280" y2="160" stroke="#dc2626" stroke-width="2" stroke-dasharray="3,3" marker-end="url(#arrowhead)"/>
+            <text x="370" y="155" text-anchor="middle" fill="#dc2626" font-family="monospace" font-size="10">cached_data [Hit]</text>
+            
+            <!-- Observer notification -->
+            <line x1="280" y1="180" x2="980" y2="180" stroke="#0891b2" stroke-width="2" marker-end="url(#arrowhead)"/>
+            <text x="630" y="175" text-anchor="middle" fill="#0891b2" font-family="monospace" font-size="10">OnCacheHit(key, size)</text>
+            
+            <!-- Return to plugin -->
+            <line x1="280" y1="200" x2="110" y2="200" stroke="#059669" stroke-width="2" stroke-dasharray="3,3" marker-end="url(#arrowhead)"/>
+            <text x="195" y="195" text-anchor="middle" fill="#059669" font-family="monospace" font-size="10">cached_applications</text>
+            
+            <!-- Cache Miss Scenario -->
+            <text x="50" y="250" fill="#f59e0b" font-family="monospace" font-size="14" font-weight="bold">Cache Miss - Network Success</text>
+            
+            <!-- Request -->
+            <line x1="110" y1="270" x2="280" y2="270" stroke="#2563eb" stroke-width="2" marker-end="url(#arrowhead)"/>
+            <text x="195" y="265" text-anchor="middle" fill="#2563eb" font-family="monospace" font-size="10">GetApplications()</text>
+            
+            <!-- Cache miss -->
+            <line x1="280" y1="290" x2="460" y2="290" stroke="#059669" stroke-width="2" marker-end="url(#arrowhead)"/>
+            <text x="370" y="285" text-anchor="middle" fill="#059669" font-family="monospace" font-size="10">Retrieve(cache_key)</text>
+            
+            <line x1="460" y1="310" x2="280" y2="310" stroke="#dc2626" stroke-width="2" stroke-dasharray="3,3" marker-end="url(#arrowhead)"/>
+            <text x="370" y="305" text-anchor="middle" fill="#dc2626" font-family="monospace" font-size="10">[Cache Miss]</text>
+            
+            <!-- Cache miss notification -->
+            <line x1="280" y1="330" x2="980" y2="330" stroke="#0891b2" stroke-width="2" marker-end="url(#arrowhead)"/>
+            <text x="630" y="325" text-anchor="middle" fill="#0891b2" font-family="monospace" font-size="10">OnCacheMiss(key)</text>
+            
+            <!-- Network fetch -->
+            <line x1="280" y1="350" x2="650" y2="350" stroke="#7c3aed" stroke-width="2" marker-end="url(#arrowhead)"/>
+            <text x="465" y="345" text-anchor="middle" fill="#7c3aed" font-family="monospace" font-size="10">Fetch(url, headers)</text>
+            
+            <line x1="650" y1="370" x2="820" y2="370" stroke="#7c3aed" stroke-width="2" marker-end="url(#arrowhead)"/>
+            <text x="735" y="365" text-anchor="middle" fill="#7c3aed" font-family="monospace" font-size="10">Get(url)</text>
+            
+            <line x1="820" y1="390" x2="650" y2="390" stroke="#ea580c" stroke-width="2" stroke-dasharray="3,3" marker-end="url(#arrowhead)"/>
+            <text x="735" y="385" text-anchor="middle" fill="#ea580c" font-family="monospace" font-size="10">response_data</text>
+            
+            <line x1="650" y1="410" x2="280" y2="410" stroke="#7c3aed" stroke-width="2" stroke-dasharray="3,3" marker-end="url(#arrowhead)"/>
+            <text x="465" y="405" text-anchor="middle" fill="#7c3aed" font-family="monospace" font-size="10">network_data</text>
+            
+            <!-- Store in cache -->
+            <line x1="280" y1="430" x2="460" y2="430" stroke="#059669" stroke-width="2" marker-end="url(#arrowhead)"/>
+            <text x="370" y="425" text-anchor="middle" fill="#059669" font-family="monospace" font-size="10">Store(key, data, expiry)</text>
+            
+            <!-- Return fresh data -->
+            <line x1="280" y1="450" x2="110" y2="450" stroke="#059669" stroke-width="2" stroke-dasharray="3,3" marker-end="url(#arrowhead)"/>
+            <text x="195" y="445" text-anchor="middle" fill="#059669" font-family="monospace" font-size="10">fresh_applications</text>
+            
+            <!-- Network Failure Scenario -->
+            <text x="50" y="500" fill="#ef4444" font-family="monospace" font-size="14" font-weight="bold">Network Failure - Fallback to Stale Cache</text>
+            
+            <!-- Network error -->
+            <line x1="280" y1="520" x2="650" y2="520" stroke="#7c3aed" stroke-width="2" marker-end="url(#arrowhead)"/>
+            <text x="465" y="515" text-anchor="middle" fill="#7c3aed" font-family="monospace" font-size="10">Fetch(url, headers)</text>
+            
+            <rect x="640" y="535" width="20" height="15" fill="#ef4444"/>
+            <text x="650" y="545" text-anchor="middle" fill="white" font-family="monospace" font-size="8">X</text>
+            
+            <!-- Error notification -->
+            <line x1="280" y1="560" x2="980" y2="560" stroke="#0891b2" stroke-width="2" marker-end="url(#arrowhead)"/>
+            <text x="630" y="555" text-anchor="middle" fill="#0891b2" font-family="monospace" font-size="10">OnNetworkError(url, error)</text>
+            
+            <!-- Fallback notification -->
+            <line x1="280" y1="580" x2="980" y2="580" stroke="#0891b2" stroke-width="2" marker-end="url(#arrowhead)"/>
+            <text x="630" y="575" text-anchor="middle" fill="#0891b2" font-family="monospace" font-size="10">OnNetworkFallback(error)</text>
+            
+            <!-- Return stale data -->
+            <line x1="280" y1="600" x2="110" y2="600" stroke="#f59e0b" stroke-width="2" stroke-dasharray="3,3" marker-end="url(#arrowhead)"/>
+            <text x="195" y="595" text-anchor="middle" fill="#f59e0b" font-family="monospace" font-size="10">stale_applications</text>
+            
+            <!-- Arrow marker definition -->
+            <defs>
+              <marker id="arrowhead" markerWidth="10" markerHeight="7" 
+               refX="9" refY="3.5" orient="auto">
+                <polygon points="0 0, 10 3.5, 0 7" fill="currentColor" />
+              </marker>
+            </defs>
+          </svg>
+        </div>
+
+        <h2>Architectural Foundation: Design Patterns in Action</h2>
+        <p>The caching system's design heavily relies on several well-established design patterns, each contributing to its modularity, flexibility, and maintainability.</p>
+
+        <h3>Facade Pattern</h3>
+        <p>At the heart of the system is the <strong>CacheManager</strong>. This class acts as a facade, providing a simplified, unified interface to a complex underlying caching subsystem. Instead of interacting directly with storage, network fetchers, and policy engines, external components only need to communicate with CacheManager, abstracting away the intricate details.</p>
+
+        <h3>Strategy Pattern</h3>
+        <p>The system achieves remarkable flexibility through the Strategy Pattern. It decouples the caching logic from the actual data storage and network fetching mechanisms.</p>
+
+        <ul>
+          <li><strong>ICacheStorage</strong>: This interface defines the contract for different cache storage implementations. Whether you need an in-memory cache, a file-based cache, or a database-backed solution like SQLiteCacheStorage, you can plug it in without altering the CacheManager's core logic.</li>
+          <li><strong>INetworkFetcher</strong>: Similarly, this interface allows for various network fetching strategies. The CurlNetworkFetcher, for instance, handles HTTP requests, but this design allows for easy integration of other network clients or even mock implementations for testing.</li>
+        </ul>
+
+        <h3>Builder Pattern</h3>
+        <p>Configuring a robust caching system can involve numerous parameters. The <strong>CacheManager::Builder</strong> simplifies this process. It provides a fluent API for constructing CacheManager instances with various options, such as database path, TTL (Time-To-Live), cache policy, compression, and network settings. This improves readability and reduces the chance of misconfiguration.</p>
+
+        <h3>Observer Pattern</h3>
+        <p>For effective monitoring and analysis, the system incorporates the Observer Pattern.</p>
+        <p><strong>ICacheObserver</strong>: This interface defines methods for reacting to significant cache events, such as cache hits, misses, expirations, network fallbacks, and cleanup operations. Concrete observers, like DefaultCacheObserver for logging and MetricsCacheObserver for collecting performance statistics, can subscribe to these events, enabling real-time insights and debugging without tightly coupling the CacheManager to monitoring logic.</p>
+
+        <h3>Template Method Pattern</h3>
+        <p>To ensure consistent behavior across different data types being cached, the <strong>CacheOperationTemplate</strong> employs the Template Method Pattern. It outlines a skeletal algorithm for caching and retrieving data, leaving specific steps (like key validation, data serialization/deserialization, expiry calculation, and data validation) to be implemented by concrete subclasses (e.g., FlatpakApplicationCacheOperation, FlatpakInstallationCacheOperation). This enforces a standardized caching flow while allowing customization for specific data needs.</p>
+
+        <h3>Repository Pattern</h3>
+        <p>While not explicitly named as a top-level component, the ICacheStorage interface, particularly how SQLiteCacheStorage interacts with the underlying database, subtly reflects the Repository Pattern. It abstracts the data access logic, providing a collection-like interface for storing and retrieving cache entries, decoupling the CacheManager from direct database operations.</p>
+
+        <h3>Cache-Aside Pattern</h3>
+        <p>The core interaction between CacheManager, ICacheStorage, and INetworkFetcher follows the Cache-Aside Pattern. The application (or CacheManager in this context) explicitly manages the cache. It first checks the cache for data. If a cache miss occurs, it fetches the data from the underlying data source (network in this case), uses it, and then stores it in the cache for future requests. This pattern provides explicit control over caching behavior and facilitates fallbacks to the network when data isn't in the cache or is expired.</p>
+
+        <h2>Core Components and Their Interactions</h2>
+        <p>The system's components are meticulously designed to work together, as illustrated in the architectural diagram above.</p>
+
+        <ul>
+          <li><strong>FlatpakPlugin</strong>: This represents the external consumer of the caching system, likely an application or service that needs to cache data related to Flatpak. It interacts solely with the CacheManager facade.</li>
+          <li><strong>CacheManager</strong>: As the central orchestrator, CacheManager encapsulates the caching logic. It decides whether to fetch data from the ICacheStorage or INetworkFetcher based on configured policies. It also dispatches events to ICacheObserver implementations.</li>
+          <li><strong>ICacheStorage (and SQLiteCacheStorage)</strong>: This component handles persistent storage of cached data. SQLiteCacheStorage specifically uses an SQLite database, ensuring thread-safe operations and supporting features like data compression (via zlib) and efficient cleanup.</li>
+          <li><strong>INetworkFetcher (and CurlNetworkFetcher)</strong>: This component is responsible for retrieving data from external network sources. CurlNetworkFetcher leverages an existing CurlClient to perform HTTP GET and POST requests, incorporating retry logic and timeout mechanisms for reliability.</li>
+          <li><strong>ICacheObserver</strong>: These components passively monitor the CacheManager's activities. They receive notifications about cache events, allowing for logging, real-time metrics collection, and other side effects without burdening the core caching logic.</li>
+        </ul>
+
+        <h2>Data Flow Orchestration</h2>
+        <p>The CacheManager orchestrates the data flow:</p>
+
+        <ol>
+          <li>A request comes in for a piece of data (e.g., a list of Flatpak applications).</li>
+          <li>Based on the configured Cache Policy (e.g., CACHE_FIRST, NETWORK_FIRST), the CacheManager first attempts to retrieve the data from its ICacheStorage.</li>
+          <li>If the data is found and valid (not expired), it's returned. An OnCacheHit event is triggered for observers.</li>
+          <li>If the data is not found or expired (OnCacheMiss, OnCacheExpired), or if the policy dictates, the CacheManager then utilizes its INetworkFetcher to retrieve the data from the network.</li>
+          <li>If the network fetch is successful, the data is stored in the ICacheStorage for future use, and then returned. If the network request fails, OnNetworkError is called, and the system might fall back to stale cache data if configured to do so (OnNetworkFallback).</li>
+          <li>A dedicated background thread runs a CleanupWorker at configurable intervals, invoking CleanupExpired on the ICacheStorage to remove stale entries and keep the cache size manageable.</li>
+        </ol>
+
+        <h2>Practical Application and Key Capabilities</h2>
+        <p>The caching system is designed for high performance, reliability, and ease of use, providing a comprehensive solution for managing dynamic data.</p>
+
+        <h3>Core Functionality</h3>
+        <p>The CacheManager provides a rich set of features:</p>
+
+        <ul>
+          <li><strong>Thread-safe operations</strong>: All public methods are designed to be thread-safe, allowing concurrent access from multiple parts of an application without data corruption. This is achieved through careful use of mutexes and atomic operations.</li>
+          <li><strong>Configurable Cache Policies</strong>: Developers can choose from policies like CACHE_FIRST (default, prioritize speed), NETWORK_FIRST (prioritize freshness), CACHE_ONLY, or NETWORK_ONLY, adapting to specific application requirements.</li>
+          <li><strong>Automatic and Manual Cleanup</strong>: Expired entries are automatically cleaned up by a dedicated background thread, maintaining cache hygiene. Manual cleanup is also available for immediate purging.</li>
+          <li><strong>Metrics and Observability</strong>: Through the Observer pattern, detailed metrics (hits, misses, network calls, cache size, uptime) are collected, providing critical insights into cache performance. Custom observers can be integrated for advanced monitoring.</li>
+          <li><strong>Error Handling and Fallbacks</strong>: The system gracefully handles network failures, logging errors and offering configurable fallback mechanisms to serve stale data from the cache, ensuring application resilience.</li>
+          <li><strong>Data Compression</strong>: For storage-bound scenarios, optional zlib compression is available to reduce the footprint of cached data within SQLite.</li>
+          <li><strong>Export/Import Capabilities</strong>: The entire cache can be exported to or imported from a file, useful for debugging, backup, or pre-populating caches.</li>
+        </ul>
+
+        <h3>Technical Implementation</h3>
+        <p>The core implementation leverages standard C++ features for robust concurrency and resource management:</p>
+
+        <ul>
+          <li><strong>std::unique_ptr</strong>: For automatic memory management of strategy objects (ICacheStorage, INetworkFetcher, ICacheObserver).</li>
+          <li><strong>std::mutex and std::atomic</strong>: For ensuring thread safety across all operations, especially when accessing shared resources like the SQLite database or metrics counters.</li>
+          <li><strong>std::thread and std::condition_variable</strong>: To implement the background cleanup worker efficiently, allowing it to sleep and wake up based on a timer or explicit notification.</li>
+          <li><strong>std::chrono</strong>: For precise time management, including TTLs, network timeouts, and calculating uptime.</li>
+          <li><strong>Serialization/Deserialization</strong>: The CacheOperationTemplate ensures that data types like flutter::EncodableList and Installation can be correctly converted to and from string formats for storage.</li>
+        </ul>
+
+        <h2>Rigorous Testing for Reliability</h2>
+        <p>A critical aspect of any robust system is thorough testing. The caching solution includes a comprehensive test suite covering various scenarios to guarantee its reliability and performance:</p>
+
+        <ul>
+          <li><strong>Basic Functionality</strong>: Verifying correct initialization, configuration, and fundamental cache operations (store, retrieve).</li>
+          <li><strong>Design Pattern Validation</strong>: Ensuring observers are notified correctly and that different cache policies behave as expected.</li>
+          <li><strong>Concurrency and Thread Safety</strong>: Stress testing with multiple threads to confirm stability and data integrity under heavy load. This includes simultaneous invalidate, cleanup, and get operations.</li>
+          <li><strong>Error Handling</strong>: Testing how the system reacts to invalid paths, network failures, and other exceptional conditions, ensuring graceful degradation and error logging.</li>
+          <li><strong>Persistence and State Management</strong>: Validating export and import functionalities to ensure data can be saved and restored reliably.</li>
+          <li><strong>Metrics Accuracy</strong>: Confirming that all performance counters (hits, misses, network calls, cache size) are accurately updated.</li>
+        </ul>
+
+        <p>This comprehensive caching system represents a significant milestone in the GSoC project, providing a robust foundation for efficient data management in the Flatpak plugin ecosystem. The careful application of design patterns and thorough testing ensures both current reliability and future extensibility.</p>
+      `,
+    readTime: "15 min read",
+    slug: "week-7"
+  },
+  {
+    week: 8,
     title: "Flutter Implementation Begins",
     date: "July 2025", 
     author: "Ahmed Adel Wafdy",
     tags: ["GSoC 2025", "AGL", "Flutter", "Implementation"],
     published: false,
     excerpt: "Starting the Flutter implementation of the AGL App Store with core architecture setup.",
-    content: "<p>This post for Week 7 is coming soon! Stay tuned for updates on Flutter implementation.</p>",
+    content: "<p>This post for Week 8 is coming soon! Stay tuned for updates on Flutter implementation.</p>",
     readTime: "7 min read",
-    slug: "week-7"
+    slug: "week-8"
   }
 ];
 
