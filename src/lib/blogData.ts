@@ -1081,7 +1081,7 @@ ostree --repo=/opt/flat-manager/stable-repo fsck</code></pre>
   {
     week: 5,
     title: "Extending Flatpak Plugin API: Implementation Architecture and Sandboxing Deep Dive",
-    date: "July 2025", 
+    date: "July 2025",
     author: "Ahmed Adel Wafdy",
     tags: ['GSoC 2025', 'AGL', 'C++', 'Flatpak Plugin', 'API Extension', 'Sandboxing', 'AppStream', 'Security'],
     published: true,
@@ -1344,7 +1344,7 @@ ostree --repo=/opt/flat-manager/stable-repo fsck</code></pre>
   {
     week: 6,
     title: "First Feature Implementation - HTTP Client Enhancement",
-    date: "July 2025", 
+    date: "July 2025",
     author: "Ahmed Adel Wafdy",
     tags: ['GSoC 2025', 'AGL', 'HTTP Client', 'CurlClient', 'Testing', 'Open Source'],
     published: true,
@@ -1480,14 +1480,14 @@ ostree --repo=/opt/flat-manager/stable-repo fsck</code></pre>
 
         <p>The successful merge of the first PR validates the technical approach and sets a strong foundation for the upcoming features.</p>
     `
-        ,
+    ,
     readTime: "10 min read",
     slug: "week-6"
   },
   {
     week: 7,
     title: "Building a Robust Caching System: A Deep Dive into its Architecture and Design Patterns",
-    date: "July 2025", 
+    date: "July 2025",
     author: "Ahmed Adel Wafdy",
     tags: ['GSoC 2025', 'AGL', 'Caching', 'Design Patterns', 'Architecture', 'C++', 'Performance'],
     published: true,
@@ -1520,212 +1520,254 @@ ostree --repo=/opt/flat-manager/stable-repo fsck</code></pre>
         <p>This post will explore the design and implementation of a sophisticated caching system, highlighting its architectural patterns, key components, and advanced features that ensure robustness, flexibility, and observability. We'll examine how various design patterns are leveraged to create a highly modular and extensible system.</p>
 
         <h2>System Architecture Sequence Flow</h2>
-        <p>The following diagram illustrates how the caching system components interact across different scenarios:</p>
+<p>The following interactive diagram illustrates how the caching system components interact across different scenarios. The visualization shows the complete flow from cache hits to network fallbacks:</p>
 
-        <div style="background: #0f172a; border-radius: 12px; padding: 24px; margin: 24px 0; overflow-x: auto; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.12);">
-          <svg viewBox="0 0 1400 1000" style="width: 100%; height: auto; background: #0f172a; border-radius: 8px;">
-            <defs>
-              <!-- Gradient Definitions -->
-              <linearGradient id="headerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#1e40af" />
-                <stop offset="100%" stop-color="#1e3a8a" />
-              </linearGradient>
-              
-              <!-- Arrow Markers -->
-              <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-                <polygon points="0 0, 10 3.5, 0 7" fill="currentColor" />
-              </marker>
-              
-              <marker id="asyncArrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-                <polygon points="0 0, 10 3.5, 0 7" fill="currentColor" opacity="0.8" />
-              </marker>
-              
-              <!-- Pattern for async messages -->
-              <pattern id="diagonalHatch" patternUnits="userSpaceOnUse" width="6" height="6">
-                <path d="M-1,1 l2,-2 M0,6 l6,-6 M5,7 l2,-2" stroke="currentColor" stroke-width="1" opacity="0.7"/>
-              </pattern>
-            </defs>
-            
-            <!-- Title -->
-            <text x="700" y="40" text-anchor="middle" fill="#f8fafc" font-family="'Inter', sans-serif" font-size="20" font-weight="600">Cache System Sequence Diagram</text>
-            
-            <!-- Participant Headers -->
-            <g class="participant">
-              <rect x="40" y="70" width="140" height="50" rx="8" fill="url(#headerGradient)" stroke="#1e40af" stroke-width="1.5"/>
-              <text x="110" y="102" text-anchor="middle" fill="#f8fafc" font-family="'Fira Code', monospace" font-size="12" font-weight="500">FlatpakPlugin</text>
-            </g>
-            
-            <g class="participant">
-              <rect x="230" y="70" width="140" height="50" rx="8" fill="#065f46" stroke="#047857" stroke-width="1.5"/>
-              <text x="300" y="102" text-anchor="middle" fill="#f8fafc" font-family="'Fira Code', monospace" font-size="12" font-weight="500">CacheManager</text>
-            </g>
-            
-            <g class="participant">
-              <rect x="420" y="70" width="160" height="50" rx="8" fill="#991b1b" stroke="#b91c1c" stroke-width="1.5"/>
-              <text x="500" y="102" text-anchor="middle" fill="#f8fafc" font-family="'Fira Code', monospace" font-size="12" font-weight="500">SQLiteCache</text>
-            </g>
-            
-            <g class="participant">
-              <rect x="630" y="70" width="160" height="50" rx="8" fill="#5b21b6" stroke="#7c3aed" stroke-width="1.5"/>
-              <text x="710" y="102" text-anchor="middle" fill="#f8fafc" font-family="'Fira Code', monospace" font-size="12" font-weight="500">NetworkFetcher</text>
-            </g>
-            
-            <g class="participant">
-              <rect x="840" y="70" width="120" height="50" rx="8" fill="#9a3412" stroke="#ea580c" stroke-width="1.5"/>
-              <text x="900" y="102" text-anchor="middle" fill="#f8fafc" font-family="'Fira Code', monospace" font-size="12" font-weight="500">CurlClient</text>
-            </g>
-            
-            <g class="participant">
-              <rect x="1010" y="70" width="140" height="50" rx="8" fill="#075985" stroke="#0ea5e9" stroke-width="1.5"/>
-              <text x="1080" y="102" text-anchor="middle" fill="#f8fafc" font-family="'Fira Code', monospace" font-size="12" font-weight="500">CacheObserver</text>
-            </g>
-            
-            <!-- Lifelines -->
-            <line x1="110" y1="130" x2="110" y2="950" stroke="#334155" stroke-width="2" stroke-dasharray="6,4"/>
-            <line x1="300" y1="130" x2="300" y2="950" stroke="#334155" stroke-width="2" stroke-dasharray="6,4"/>
-            <line x1="500" y1="130" x2="500" y2="950" stroke="#334155" stroke-width="2" stroke-dasharray="6,4"/>
-            <line x1="710" y1="130" x2="710" y2="950" stroke="#334155" stroke-width="2" stroke-dasharray="6,4"/>
-            <line x1="900" y1="130" x2="900" y2="950" stroke="#334155" stroke-width="2" stroke-dasharray="6,4"/>
-            <line x1="1080" y1="130" x2="1080" y2="950" stroke="#334155" stroke-width="2" stroke-dasharray="6,4"/>
-            
-            <!-- Scenario 1: Cache Hit -->
-            <g class="scenario">
-              <rect x="40" y="150" width="1320" height="180" rx="8" fill="#1e293b" fill-opacity="0.3" stroke="#10b981" stroke-width="1.5" stroke-dasharray="8,4"/>
-              <text x="50" y="175" fill="#10b981" font-family="'Inter', sans-serif" font-size="14" font-weight="600">1. Cache Hit Scenario</text>
-              
-              <!-- Cache Hit Flow -->
-              <g class="flow">
-                <!-- Request from Plugin to CacheManager -->
-                <line x1="110" y1="200" x2="300" y2="200" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrowhead)"/>
-                <rect x="150" y="180" width="110" height="20" rx="4" fill="#1e40af" opacity="0.1"/>
-                <text x="205" y="195" text-anchor="middle" fill="#93c5fd" font-family="'Fira Code', monospace" font-size="11">GetApplications()</text>
+        <div style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%); border-radius: 16px; padding: 32px; margin: 32px 0; border: 1px solid rgba(148, 163, 184, 0.2); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);">
+          <div style="background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 24px; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1);">
+            <svg viewBox="0 0 1400 900" style="width: 100%; height: auto; background: transparent;">
+              <defs>
+                <!-- Enhanced gradients for modern look -->
+                <linearGradient id="pluginGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+                  <stop offset="100%" style="stop-color:#1d4ed8;stop-opacity:1" />
+                </linearGradient>
+                <linearGradient id="cacheGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
+                  <stop offset="100%" style="stop-color:#059669;stop-opacity:1" />
+                </linearGradient>
+                <linearGradient id="storageGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#f59e0b;stop-opacity:1" />
+                  <stop offset="100%" style="stop-color:#d97706;stop-opacity:1" />
+                </linearGradient>
+                <linearGradient id="networkGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#8b5cf6;stop-opacity:1" />
+                  <stop offset="100%" style="stop-color:#7c3aed;stop-opacity:1" />
+                </linearGradient>
+                <linearGradient id="curlGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#f97316;stop-opacity:1" />
+                  <stop offset="100%" style="stop-color:#ea580c;stop-opacity:1" />
+                </linearGradient>
+                <linearGradient id="observerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#06b6d4;stop-opacity:1" />
+                  <stop offset="100%" style="stop-color:#0891b2;stop-opacity:1" />
+                </linearGradient>
                 
-                <!-- CacheManager checks cache -->
-                <line x1="300" y1="230" x2="500" y2="230" stroke="#10b981" stroke-width="2" marker-end="url(#arrowhead)"/>
-                <rect x="350" y="210" width="110" height="20" rx="4" fill="#065f46" opacity="0.1"/>
-                <text x="400" y="225" text-anchor="middle" fill="#6ee7b7" font-family="'Fira Code', monospace" font-size="11">Retrieve(key)</text>
+                <!-- Enhanced arrow marker -->
+                <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                  <path d="M0,0 L0,6 L8,3 z" fill="currentColor" stroke="none"/>
+                </marker>
+                
+                <!-- Shadow filter -->
+                <filter id="dropshadow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feDropShadow dx="2" dy="4" stdDeviation="3" flood-color="rgba(0,0,0,0.3)"/>
+                </filter>
+                
+                <!-- Glow effect -->
+                <filter id="glow">
+                  <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                  <feMerge> 
+                    <feMergeNode in="coloredBlur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                  </feMerge>
+                </filter>
+              </defs>
+              
+              <!-- Background pattern -->
+              <pattern id="dots" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                <circle cx="10" cy="10" r="1" fill="rgba(148, 163, 184, 0.1)"/>
+              </pattern>
+              <rect width="100%" height="100%" fill="url(#dots)"/>
+              
+              <!-- Component Headers with enhanced styling -->
+              <g filter="url(#dropshadow)">
+                <rect x="60" y="30" width="140" height="50" fill="url(#pluginGradient)" rx="12" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+                <text x="130" y="50" text-anchor="middle" fill="white" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600">FlatpakPlugin</text>
+                <text x="130" y="65" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-family="monospace" font-size="9">External Consumer</text>
+                
+                <rect x="250" y="30" width="140" height="50" fill="url(#cacheGradient)" rx="12" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+                <text x="320" y="50" text-anchor="middle" fill="white" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600">CacheManager</text>
+                <text x="320" y="65" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-family="monospace" font-size="9">Facade Pattern</text>
+                
+                <rect x="440" y="30" width="150" height="50" fill="url(#storageGradient)" rx="12" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+                <text x="515" y="50" text-anchor="middle" fill="white" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600">SQLiteCacheStorage</text>
+                <text x="515" y="65" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-family="monospace" font-size="9">Repository Pattern</text>
+                
+                <rect x="640" y="30" width="150" height="50" fill="url(#networkGradient)" rx="12" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+                <text x="715" y="50" text-anchor="middle" fill="white" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600">CurlNetworkFetcher</text>
+                <text x="715" y="65" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-family="monospace" font-size="9">Strategy Pattern</text>
+                
+                <rect x="840" y="30" width="120" height="50" fill="url(#curlGradient)" rx="12" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+                <text x="900" y="50" text-anchor="middle" fill="white" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600">CurlClient</text>
+                <text x="900" y="65" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-family="monospace" font-size="9">HTTP Layer</text>
+                
+                <rect x="1010" y="30" width="130" height="50" fill="url(#observerGradient)" rx="12" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+                <text x="1075" y="50" text-anchor="middle" fill="white" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600">CacheObserver</text>
+                <text x="1075" y="65" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-family="monospace" font-size="9">Observer Pattern</text>
+              </g>
+              
+              <!-- Enhanced Lifelines with subtle animations -->
+              <g stroke="rgba(148, 163, 184, 0.4)" stroke-width="2" stroke-dasharray="8,4">
+                <line x1="130" y1="80" x2="130" y2="850"/>
+                <line x1="320" y1="80" x2="320" y2="850"/>
+                <line x1="515" y1="80" x2="515" y2="850"/>
+                <line x1="715" y1="80" x2="715" y2="850"/>
+                <line x1="900" y1="80" x2="900" y2="850"/>
+                <line x1="1075" y1="80" x2="1075" y2="850"/>
+              </g>
+              
+              <!-- Scenario 1: Cache Hit (Enhanced) -->
+              <g>
+                <rect x="40" y="110" width="200" height="30" fill="rgba(16, 185, 129, 0.1)" rx="8" stroke="rgba(16, 185, 129, 0.3)" stroke-width="1"/>
+                <text x="50" y="130" fill="#10b981" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700">✓ Cache Hit Scenario</text>
+                
+                <!-- Request with animation hint -->
+                <line x1="130" y1="160" x2="320" y2="160" stroke="#3b82f6" stroke-width="3" marker-end="url(#arrowhead)" filter="url(#glow)"/>
+                <rect x="180" y="145" width="120" height="20" fill="rgba(59, 130, 246, 0.1)" rx="4"/>
+                <text x="240" y="157" text-anchor="middle" fill="#3b82f6" font-family="monospace" font-size="11" font-weight="500">GetApplications()</text>
+                
+                <!-- Cache retrieve -->
+                <line x1="320" y1="185" x2="515" y2="185" stroke="#10b981" stroke-width="3" marker-end="url(#arrowhead)"/>
+                <rect x="380" y="170" width="120" height="20" fill="rgba(16, 185, 129, 0.1)" rx="4"/>
+                <text x="440" y="182" text-anchor="middle" fill="#10b981" font-family="monospace" font-size="11">Retrieve(cache_key)</text>
                 
                 <!-- Cache hit response -->
-                <line x1="500" y1="260" x2="300" y2="260" stroke="#ef4444" stroke-width="2" stroke-dasharray="4,2" marker-end="url(#arrowhead)"/>
-                <rect x="380" y="240" width="90" height="20" rx="4" fill="#991b1b" opacity="0.1"/>
-                <text x="400" y="255" text-anchor="middle" fill="#fca5a5" font-family="'Fira Code', monospace" font-size="11">[Cached Data]</text>
+                <line x1="515" y1="210" x2="320" y2="210" stroke="#f59e0b" stroke-width="3" stroke-dasharray="6,3" marker-end="url(#arrowhead)"/>
+                <rect x="370" y="195" width="140" height="20" fill="rgba(245, 158, 11, 0.1)" rx="4"/>
+                <text x="440" y="207" text-anchor="middle" fill="#f59e0b" font-family="monospace" font-size="11" font-weight="600">cached_data [HIT]</text>
                 
-                <!-- Notify observer -->
-                <line x1="300" y1="290" x2="1080" y2="290" stroke="#0ea5e9" stroke-width="2" marker-end="url(#arrowhead)"/>
-                <rect x="600" y="270" width="120" height="20" rx="4" fill="#075985" opacity="0.1"/>
-                <text x="690" y="285" text-anchor="middle" fill="#7dd3fc" font-family="'Fira Code', monospace" font-size="11">OnCacheHit()</text>
+                <!-- Observer notification -->
+                <line x1="320" y1="235" x2="1075" y2="235" stroke="#06b6d4" stroke-width="2" marker-end="url(#arrowhead)"/>
+                <rect x="650" y="220" width="150" height="20" fill="rgba(6, 182, 212, 0.1)" rx="4"/>
+                <text x="725" y="232" text-anchor="middle" fill="#06b6d4" font-family="monospace" font-size="10">OnCacheHit(key, size)</text>
                 
-                <!-- Return cached data -->
-                <line x1="300" y1="320" x2="110" y2="320" stroke="#10b981" stroke-width="2" stroke-dasharray="4,2" marker-end="url(#arrowhead)"/>
-                <rect x="150" y="300" width="120" height="20" rx="4" fill="#065f46" opacity="0.1"/>
-                <text x="205" y="315" text-anchor="middle" fill="#6ee7b7" font-family="'Fira Code', monospace" font-size="11">cached_data</text>
+                <!-- Return to plugin -->
+                <line x1="320" y1="260" x2="130" y2="260" stroke="#10b981" stroke-width="3" stroke-dasharray="6,3" marker-end="url(#arrowhead)" filter="url(#glow)"/>
+                <rect x="180" y="245" width="140" height="20" fill="rgba(16, 185, 129, 0.1)" rx="4"/>
+                <text x="250" y="257" text-anchor="middle" fill="#10b981" font-family="monospace" font-size="11" font-weight="600">cached_applications</text>
               </g>
-            </g>
-            
-            <!-- Scenario 2: Cache Miss -->
-            <g class="scenario">
-              <rect x="40" y="360" width="1320" height="260" rx="8" fill="#1e293b" fill-opacity="0.3" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="8,4"/>
-              <text x="50" y="385" fill="#f59e0b" font-family="'Inter', sans-serif" font-size="14" font-weight="600">2. Cache Miss - Network Success</text>
               
-              <!-- Cache Miss Flow -->
-              <g class="flow">
-                <!-- Request from Plugin to CacheManager -->
-                <line x1="110" y1="420" x2="300" y2="420" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrowhead)"/>
-                <rect x="150" y="400" width="110" height="20" rx="4" fill="#1e40af" opacity="0.1"/>
-                <text x="205" y="415" text-anchor="middle" fill="#93c5fd" font-family="'Fira Code', monospace" font-size="11">GetApplications()</text>
+              <!-- Scenario 2: Cache Miss (Enhanced) -->
+              <g>
+                <rect x="40" y="300" width="280" height="30" fill="rgba(245, 158, 11, 0.1)" rx="8" stroke="rgba(245, 158, 11, 0.3)" stroke-width="1"/>
+                <text x="50" y="320" fill="#f59e0b" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700">⚡ Cache Miss - Network Success</text>
                 
-                <!-- CacheManager checks cache -->
-                <line x1="300" y1="450" x2="500" y2="450" stroke="#10b981" stroke-width="2" marker-end="url(#arrowhead)"/>
-                <rect x="350" y="430" width="110" height="20" rx="4" fill="#065f46" opacity="0.1"/>
-                <text x="400" y="445" text-anchor="middle" fill="#6ee7b7" font-family="'Fira Code', monospace" font-size="11">Retrieve(key)</text>
+                <!-- Request -->
+                <line x1="130" y1="350" x2="320" y2="350" stroke="#3b82f6" stroke-width="3" marker-end="url(#arrowhead)" filter="url(#glow)"/>
+                <rect x="180" y="335" width="120" height="20" fill="rgba(59, 130, 246, 0.1)" rx="4"/>
+                <text x="240" y="347" text-anchor="middle" fill="#3b82f6" font-family="monospace" font-size="11">GetApplications()</text>
                 
-                <!-- Cache miss response -->
-                <line x1="500" y1="480" x2="300" y2="480" stroke="#ef4444" stroke-width="2" stroke-dasharray="4,2" marker-end="url(#arrowhead)"/>
-                <rect x="370" y="460" width="70" height="20" rx="4" fill="#991b1b" opacity="0.1"/>
-                <text x="400" y="475" text-anchor="middle" fill="#fca5a5" font-family="'Fira Code', monospace" font-size="11">[Cache Miss]</text>
+                <!-- Cache miss -->
+                <line x1="320" y1="375" x2="515" y2="375" stroke="#10b981" stroke-width="3" marker-end="url(#arrowhead)"/>
+                <line x1="515" y1="395" x2="320" y2="395" stroke="#ef4444" stroke-width="3" stroke-dasharray="6,3" marker-end="url(#arrowhead)"/>
+                <rect x="380" y="380" width="100" height="20" fill="rgba(239, 68, 68, 0.1)" rx="4"/>
+                <text x="430" y="392" text-anchor="middle" fill="#ef4444" font-family="monospace" font-size="11" font-weight="600">[CACHE MISS]</text>
                 
-                <!-- Notify observer -->
-                <line x1="300" y1="510" x2="1080" y2="510" stroke="#0ea5e9" stroke-width="2" marker-end="url(#arrowhead)"/>
-                <rect x="600" y="490" width="120" height="20" rx="4" fill="#075985" opacity="0.1"/>
-                <text x="690" y="505" text-anchor="middle" fill="#7dd3fc" font-family="'Fira Code', monospace" font-size="11">OnCacheMiss()</text>
+                <!-- Cache miss notification -->
+                <line x1="320" y1="420" x2="1075" y2="420" stroke="#06b6d4" stroke-width="2" marker-end="url(#arrowhead)"/>
+                <rect x="650" y="405" width="130" height="20" fill="rgba(6, 182, 212, 0.1)" rx="4"/>
+                <text x="715" y="417" text-anchor="middle" fill="#06b6d4" font-family="monospace" font-size="10">OnCacheMiss(key)</text>
                 
-                <!-- Network fetch -->
-                <line x1="300" y1="540" x2="710" y2="540" stroke="#8b5cf6" stroke-width="2" marker-end="url(#arrowhead)"/>
-                <rect x="450" y="520" width="150" height="20" rx="4" fill="#5b21b6" opacity="0.1"/>
-                <text x="505" y="535" text-anchor="middle" fill="#c4b5fd" font-family="'Fira Code', monospace" font-size="11">Fetch(url, headers)</text>
+                <!-- Network fetch sequence -->
+                <line x1="320" y1="445" x2="715" y2="445" stroke="#8b5cf6" stroke-width="3" marker-end="url(#arrowhead)"/>
+                <rect x="480" y="430" width="140" height="20" fill="rgba(139, 92, 246, 0.1)" rx="4"/>
+                <text x="550" y="442" text-anchor="middle" fill="#8b5cf6" font-family="monospace" font-size="11">Fetch(url, headers)</text>
                 
-                <!-- CurlClient request -->
-                <line x1="710" y1="570" x2="900" y2="570" stroke="#8b5cf6" stroke-width="2" marker-end="url(#arrowhead)"/>
-                <rect x="750" y="550" width="90" height="20" rx="4" fill="#5b21b6" opacity="0.1"/>
-                <text x="805" y="565" text-anchor="middle" fill="#c4b5fd" font-family="'Fira Code', monospace" font-size="11">Get(url)</text>
+                <line x1="715" y1="470" x2="900" y2="470" stroke="#8b5cf6" stroke-width="2" marker-end="url(#arrowhead)"/>
+                <rect x="780" y="455" width="60" height="20" fill="rgba(139, 92, 246, 0.1)" rx="4"/>
+                <text x="810" y="467" text-anchor="middle" fill="#8b5cf6" font-family="monospace" font-size="10">Get(url)</text>
                 
-                <!-- Response from CurlClient -->
-                <line x1="900" y1="600" x2="710" y2="600" stroke="#ea580c" stroke-width="2" stroke-dasharray="4,2" marker-end="url(#arrowhead)"/>
-                <rect x="750" y="580" width="120" height="20" rx="4" fill="#9a3412" opacity="0.1"/>
-                <text x="805" y="595" text-anchor="middle" fill="#fdba74" font-family="'Fira Code', monospace" font-size="11">response_data</text>
+                <line x1="900" y1="495" x2="715" y2="495" stroke="#f97316" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#arrowhead)"/>
+                <rect x="780" y="480" width="100" height="20" fill="rgba(249, 115, 22, 0.1)" rx="4"/>
+                <text x="830" y="492" text-anchor="middle" fill="#f97316" font-family="monospace" font-size="10">response_data</text>
                 
-                <!-- Return network data -->
-                <line x1="710" y1="630" x2="300" y2="630" stroke="#8b5cf6" stroke-width="2" stroke-dasharray="4,2" marker-end="url(#arrowhead)"/>
-                <rect x="450" y="610" width="120" height="20" rx="4" fill="#5b21b6" opacity="0.1"/>
-                <text x="505" y="625" text-anchor="middle" fill="#c4b5fd" font-family="'Fira Code', monospace" font-size="11">network_data</text>
+                <line x1="715" y1="520" x2="320" y2="520" stroke="#8b5cf6" stroke-width="3" stroke-dasharray="6,3" marker-end="url(#arrowhead)"/>
+                <rect x="480" y="505" width="120" height="20" fill="rgba(139, 92, 246, 0.1)" rx="4"/>
+                <text x="540" y="517" text-anchor="middle" fill="#8b5cf6" font-family="monospace" font-size="11">network_data</text>
                 
                 <!-- Store in cache -->
-                <line x1="300" y1="660" x2="500" y2="660" stroke="#10b981" stroke-width="2" marker-end="url(#arrowhead)"/>
-                <rect x="350" y="640" width="140" height="20" rx="4" fill="#065f46" opacity="0.1"/>
-                <text x="400" y="655" text-anchor="middle" fill="#6ee7b7" font-family="'Fira Code', monospace" font-size="11">Store(key, data)</text>
+                <line x1="320" y1="545" x2="515" y2="545" stroke="#10b981" stroke-width="3" marker-end="url(#arrowhead)"/>
+                <rect x="360" y="530" width="150" height="20" fill="rgba(16, 185, 129, 0.1)" rx="4"/>
+                <text x="435" y="542" text-anchor="middle" fill="#10b981" font-family="monospace" font-size="11">Store(key, data, expiry)</text>
                 
                 <!-- Return fresh data -->
-                <line x1="300" y1="690" x2="110" y2="690" stroke="#10b981" stroke-width="2" stroke-dasharray="4,2" marker-end="url(#arrowhead)"/>
-                <rect x="150" y="670" width="120" height="20" rx="4" fill="#065f46" opacity="0.1"/>
-                <text x="205" y="685" text-anchor="middle" fill="#6ee7b7" font-family="'Fira Code', monospace" font-size="11">fresh_data</text>
+                <line x1="320" y1="570" x2="130" y2="570" stroke="#10b981" stroke-width="3" stroke-dasharray="6,3" marker-end="url(#arrowhead)" filter="url(#glow)"/>
+                <rect x="180" y="555" width="130" height="20" fill="rgba(16, 185, 129, 0.1)" rx="4"/>
+                <text x="245" y="567" text-anchor="middle" fill="#10b981" font-family="monospace" font-size="11" font-weight="600">fresh_applications</text>
               </g>
-            </g>
-            
-            <!-- Scenario 3: Network Failure -->
-            <g class="scenario">
-              <rect x="40" y="650" width="1320" height="230" rx="8" fill="#1e293b" fill-opacity="0.3" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="8,4"/>
-              <text x="50" y="675" fill="#ef4444" font-family="'Inter', sans-serif" font-size="14" font-weight="600">3. Network Failure - Fallback to Stale Cache</text>
               
-              <!-- Network Failure Flow -->
-              <g class="flow">
-                <!-- Attempt network fetch -->
-                <line x1="300" y1="710" x2="710" y2="710" stroke="#8b5cf6" stroke-width="2" marker-end="url(#arrowhead)"/>
-                <rect x="450" y="690" width="150" height="20" rx="4" fill="#5b21b6" opacity="0.1"/>
-                <text x="505" y="705" text-anchor="middle" fill="#c4b5fd" font-family="'Fira Code', monospace" font-size="11">Fetch(url, headers)</text>
+              <!-- Scenario 3: Network Failure (Enhanced) -->
+              <g>
+                <rect x="40" y="610" width="350" height="30" fill="rgba(239, 68, 68, 0.1)" rx="8" stroke="rgba(239, 68, 68, 0.3)" stroke-width="1"/>
+                <text x="50" y="630" fill="#ef4444" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700">⚠️ Network Failure - Fallback to Stale Cache</text>
                 
-                <!-- Network error indicator -->
-                <g>
-                  <line x1="705" y1="735" x2="715" y2="745" stroke="#ef4444" stroke-width="2"/>
-                  <line x1="705" y1="745" x2="715" y2="735" stroke="#ef4444" stroke-width="2"/>
-                  <circle cx="710" cy="740" r="12" fill="none" stroke="#ef4444" stroke-width="2"/>
-                  <text x="710" y="745" text-anchor="middle" fill="#ef4444" font-family="'Fira Code', monospace" font-size="10" font-weight="bold">!</text>
-                </g>
+                <!-- Network error -->
+                <line x1="320" y1="660" x2="715" y2="660" stroke="#8b5cf6" stroke-width="3" marker-end="url(#arrowhead)"/>
+                <rect x="480" y="645" width="140" height="20" fill="rgba(139, 92, 246, 0.1)" rx="4"/>
+                <text x="550" y="657" text-anchor="middle" fill="#8b5cf6" font-family="monospace" font-size="11">Fetch(url, headers)</text>
                 
-                <!-- Error notification -->
-                <line x1="300" y1="770" x2="1080" y2="770" stroke="#0ea5e9" stroke-width="2" marker-end="url(#arrowhead)"/>
-                <rect x="600" y="750" width="160" height="20" rx="4" fill="#075985" opacity="0.1"/>
-                <text x="690" y="765" text-anchor="middle" fill="#7dd3fc" font-family="'Fira Code', monospace" font-size="11">OnNetworkError()</text>
+                <!-- Error indicator -->
+                <circle cx="715" cy="685" r="15" fill="#ef4444" stroke="white" stroke-width="2"/>
+                <text x="715" y="690" text-anchor="middle" fill="white" font-family="sans-serif" font-size="12" font-weight="bold">✗</text>
                 
-                <!-- Fallback notification -->
-                <line x1="300" y1="800" x2="1080" y2="800" stroke="#0ea5e9" stroke-width="2" marker-end="url(#arrowhead)"/>
-                <rect x="600" y="780" width="160" height="20" rx="4" fill="#075985" opacity="0.1"/>
-                <text x="690" y="795" text-anchor="middle" fill="#7dd3fc" font-family="'Fira Code', monospace" font-size="11">OnNetworkFallback()</text>
+                <!-- Error notifications -->
+                <line x1="320" y1="710" x2="1075" y2="710" stroke="#ef4444" stroke-width="2" marker-end="url(#arrowhead)"/>
+                <rect x="650" y="695" width="170" height="20" fill="rgba(239, 68, 68, 0.1)" rx="4"/>
+                <text x="735" y="707" text-anchor="middle" fill="#ef4444" font-family="monospace" font-size="10">OnNetworkError(url, error)</text>
+                
+                <line x1="320" y1="735" x2="1075" y2="735" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrowhead)"/>
+                <rect x="650" y="720" width="150" height="20" fill="rgba(245, 158, 11, 0.1)" rx="4"/>
+                <text x="725" y="732" text-anchor="middle" fill="#f59e0b" font-family="monospace" font-size="10">OnNetworkFallback(error)</text>
                 
                 <!-- Return stale data -->
-                <line x1="300" y1="840" x2="110" y2="840" stroke="#f59e0b" stroke-width="2" stroke-dasharray="4,2" marker-end="url(#arrowhead)"/>
-                <rect x="150" y="820" width="120" height="20" rx="4" fill="#92400e" opacity="0.1"/>
-                <text x="205" y="835" text-anchor="middle" fill="#fcd34d" font-family="'Fira Code', monospace" font-size="11">stale_data</text>
+                <line x1="320" y1="760" x2="130" y2="760" stroke="#f59e0b" stroke-width="3" stroke-dasharray="6,3" marker-end="url(#arrowhead)"/>
+                <rect x="180" y="745" width="130" height="20" fill="rgba(245, 158, 11, 0.1)" rx="4"/>
+                <text x="245" y="757" text-anchor="middle" fill="#f59e0b" font-family="monospace" font-size="11" font-weight="600">stale_applications</text>
               </g>
-            </g>
+              
+              <!-- Background cleanup thread indicator -->
+              <g opacity="0.6">
+                <rect x="40" y="800" width="300" height="25" fill="rgba(107, 114, 128, 0.1)" rx="6" stroke="rgba(107, 114, 128, 0.2)" stroke-width="1"/>
+                <text x="50" y="817" fill="#6b7280" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="500">🔄 Background: CleanupWorker Thread</text>
+                <line x1="320" y1="825" x2="515" y2="825" stroke="#6b7280" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#arrowhead)"/>
+                <text x="418" y="820" text-anchor="middle" fill="#6b7280" font-family="monospace" font-size="9">CleanupExpired()</text>
+              </g>
+            </svg>
+          </div>
+          
+          <!-- Legend -->
+          <div style="margin-top: 24px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+            <div style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 8px; padding: 12px;">
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                <div style="width: 12px; height: 3px; background: #3b82f6; border-radius: 2px;"></div>
+                <span style="color: #e2e8f0; font-size: 12px; font-weight: 600;">Request Flow</span>
+              </div>
+              <p style="color: #94a3b8; font-size: 11px; margin: 0;">External API calls and data requests</p>
+            </div>
             
-            <!-- Arrow marker definition -->
-            <defs>
-              <marker id="arrowhead" markerWidth="10" markerHeight="7" 
-               refX="9" refY="3.5" orient="auto">
-                <polygon points="0 0, 10 3.5, 0 7" fill="currentColor" />
-              </marker>
-            </defs>
-          </svg>
+            <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; padding: 12px;">
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                <div style="width: 12px; height: 3px; background: #10b981; border-radius: 2px;"></div>
+                <span style="color: #e2e8f0; font-size: 12px; font-weight: 600;">Cache Operations</span>
+              </div>
+              <p style="color: #94a3b8; font-size: 11px; margin: 0;">Data storage and retrieval from cache</p>
+            </div>
+            
+            <div style="background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 8px; padding: 12px;">
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                <div style="width: 12px; height: 3px; background: #8b5cf6; border-radius: 2px;"></div>
+                <span style="color: #e2e8f0; font-size: 12px; font-weight: 600;">Network Calls</span>
+              </div>
+              <p style="color: #94a3b8; font-size: 11px; margin: 0;">HTTP requests to external services</p>
+            </div>
+            
+            <div style="background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.3); border-radius: 8px; padding: 12px;">
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                <div style="width: 12px; height: 3px; background: #06b6d4; border-radius: 2px;"></div>
+                <span style="color: #e2e8f0; font-size: 12px; font-weight: 600;">Observer Events</span>
+              </div>
+              <p style="color: #94a3b8; font-size: 11px; margin: 0;">Monitoring and analytics notifications</p>
+            </div>
+          </div>
         </div>
 
         <h2>Architectural Foundation: Design Patterns in Action</h2>
@@ -1828,7 +1870,7 @@ ostree --repo=/opt/flat-manager/stable-repo fsck</code></pre>
   {
     week: 8,
     title: "Flutter Implementation Begins",
-    date: "July 2025", 
+    date: "July 2025",
     author: "Ahmed Adel Wafdy",
     tags: ["GSoC 2025", "AGL", "Flutter", "Implementation"],
     published: false,
@@ -1860,7 +1902,7 @@ export function getBlogPostByWeek(week: number): BlogPostData | undefined {
 export function getAllBlogPostsWithPlaceholders(): BlogPostData[] {
   const existingWeeks = new Set(blogPosts.map(post => post.week));
   const allPosts = [...blogPosts];
-  
+
   // Add placeholder posts for weeks 4-22
   for (let week = 4; week <= 22; week++) {
     if (!existingWeeks.has(week)) {
@@ -1868,7 +1910,7 @@ export function getAllBlogPostsWithPlaceholders(): BlogPostData[] {
         week,
         title: `Week ${week} Development Update`,
         date: "Coming Soon",
-        author: "Ahmed Adel Wafdy", 
+        author: "Ahmed Adel Wafdy",
         tags: ["GSoC 2025", "AGL", "Development"],
         published: false,
         excerpt: `Week ${week} development updates will be published soon as part of the GSoC 2025 journey.`,
@@ -1878,6 +1920,6 @@ export function getAllBlogPostsWithPlaceholders(): BlogPostData[] {
       });
     }
   }
-  
+
   return allPosts.sort((a, b) => a.week - b.week);
 }
