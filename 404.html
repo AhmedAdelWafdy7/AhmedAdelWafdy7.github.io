@@ -12,17 +12,24 @@
         // Set flag to prevent redirect loops
         sessionStorage.setItem('redirected', 'true');
         
-        // Build the new URL
-        const path = window.location.pathname.replace(/^\/+/, ''); // Remove leading slashes
-        const search = window.location.search;
-        const hash = window.location.hash;
-        const newUrl = `/${path}${search}${hash}`;
+        // Get the current path and clean it up
+        let path = window.location.pathname;
+        // Remove any trailing slashes and .html
+        path = path.replace(/\/+$/, '').replace(/\.html$/, '');
         
-        // Redirect to index.html with the path as a query parameter
-        window.location.href = `/index.html?redirect=${encodeURIComponent(newUrl)}`;
+        // If we're at the root, just go to index.html
+        if (path === '') {
+          window.location.href = '/index.html';
+        } else {
+          // Otherwise redirect to hash-based URL
+          window.location.href = `/#${path}`;
+        }
       } else if (hasRedirected) {
         // Clear the flag if we've already redirected once
         sessionStorage.removeItem('redirected');
+        
+        // If we still end up here, go to the home page
+        window.location.href = '/';
       }
     </script>
     <noscript>
