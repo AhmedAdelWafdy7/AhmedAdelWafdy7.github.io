@@ -4,12 +4,25 @@
     <meta charset="utf-8">
     <title>Redirecting...</title>
     <script>
-      // Only redirect if we're not already at index.html
-      if (!window.location.pathname.endsWith('index.html')) {
-        // Get the current path without the base URL
-        const path = window.location.pathname + window.location.search + window.location.hash;
-        // Redirect to index.html with the path
-        window.location.href = '/index.html' + path;
+      // Check if we're already at index.html or in a redirect loop
+      const isIndexHtml = window.location.pathname.endsWith('index.html');
+      const hasRedirected = sessionStorage.getItem('redirected') === 'true';
+      
+      if (!isIndexHtml && !hasRedirected) {
+        // Set flag to prevent redirect loops
+        sessionStorage.setItem('redirected', 'true');
+        
+        // Build the new URL
+        const path = window.location.pathname.replace(/^\/+/, ''); // Remove leading slashes
+        const search = window.location.search;
+        const hash = window.location.hash;
+        const newUrl = `/${path}${search}${hash}`;
+        
+        // Redirect to index.html with the path as a query parameter
+        window.location.href = `/index.html?redirect=${encodeURIComponent(newUrl)}`;
+      } else if (hasRedirected) {
+        // Clear the flag if we've already redirected once
+        sessionStorage.removeItem('redirected');
       }
     </script>
     <noscript>
