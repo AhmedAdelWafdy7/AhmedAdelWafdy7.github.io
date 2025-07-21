@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Redirecting...</title>
+    <script>
+      // Get the path including any search and hash parameters
+      const path = window.location.pathname + window.location.search + window.location.hash;
+      // Redirect to index.html with the path as a hash
+      window.location.href = '/index.html#' + path;
+    </script>
+    <noscript>
+      <meta http-equiv="refresh" content="0; url=/index.html">
+    </noscript>
+  </head>
+  <body>
+    <p>Redirecting to <a href="/">home page</a>...</p>
+  </body>
+</html>
