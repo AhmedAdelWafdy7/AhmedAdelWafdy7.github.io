@@ -4,27 +4,13 @@
     <meta charset="utf-8">
     <title>Redirecting...</title>
     <script>
-      // Single Page Apps for GitHub Pages
-      (function(l) {
-        if (l.search) {
-          var q = {};
-          l.search.slice(1).split('&').forEach(function(v) {
-            var a = v.split('=');
-            q[a[0]] = a[1];
-          });
-          if (q.p !== undefined) {
-            window.history.replaceState(null, null,
-              l.pathname.slice(0, -1) + (q.p || '') +
-              (q.q ? ('?' + q.q) : '') +
-              l.hash
-            );
-          }
-        }
-      }(window.location));
-      
-      // Redirect to the main app with the current path
-      const path = window.location.pathname + window.location.search + window.location.hash;
-      window.location.href = '/index.html' + path;
+      // Only redirect if we're not already at index.html
+      if (!window.location.pathname.endsWith('index.html')) {
+        // Get the current path without the base URL
+        const path = window.location.pathname + window.location.search + window.location.hash;
+        // Redirect to index.html with the path
+        window.location.href = '/index.html' + path;
+      }
     </script>
     <noscript>
       <meta http-equiv="refresh" content="0; url=/index.html">
