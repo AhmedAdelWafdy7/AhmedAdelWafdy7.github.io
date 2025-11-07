@@ -59,7 +59,9 @@ const Navigation = () => {
                   }
                 }
               }}
-              className="text-2xl font-serif font-bold gradient-text hover:scale-105 transition-transform duration-300"
+              className={`text-2xl font-serif font-bold hover:scale-105 transition-all duration-300 ${
+                isScrolled ? 'gradient-text' : 'text-white'
+              }`}
             >
               Ahmed Wafdy
             </Link>
