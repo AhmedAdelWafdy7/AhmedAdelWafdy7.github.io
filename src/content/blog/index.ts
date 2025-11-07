@@ -20,6 +20,7 @@ import { week18 } from './week18';
 import { week19 } from './week19';
 import { week20 } from './week20';
 import {week21} from './week21';
+import { week22 } from './week22';
 
 export const allBlogPosts = [
   week1,
@@ -42,7 +43,8 @@ export const allBlogPosts = [
   week18,
   week19,
   week20,
-  week21
+  week21,
+  week22
 ];
 
 // Helper function to get all published posts
