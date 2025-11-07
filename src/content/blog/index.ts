@@ -6,6 +6,20 @@ import { week4 } from './week4';
 import { week5 } from './week5';
 import { week6 } from './week6';
 import { week7 } from './week7';
+import { week8 } from './week8';
+import { week9 } from './week9';
+import { week10 } from './week10';
+import { week11 } from './week11';
+import { week12 } from './week12';
+import { week13 } from './week13';
+import { week14 } from './week14';
+import { week15 } from './week15';
+import { week16 } from './week16';
+import { week17 } from './week17';
+import { week18 } from './week18';
+import { week19 } from './week19';
+import { week20 } from './week20';
+import {week21} from './week21';
 
 export const allBlogPosts = [
   week1,
@@ -14,7 +28,21 @@ export const allBlogPosts = [
   week4,
   week5,
   week6,
-  week7
+  week7,
+  week8,
+  week9,
+  week10,
+  week11,
+  week12,
+  week13,
+  week14,
+  week15,
+  week16,
+  week17,
+  week18,
+  week19,
+  week20,
+  week21
 ];
 
 // Helper function to get all published posts
